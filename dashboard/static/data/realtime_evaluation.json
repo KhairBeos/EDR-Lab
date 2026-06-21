@@ -1,0 +1,85 @@
+{
+  "case_count": 6,
+  "cases": [
+    {
+      "case_id": "rt_t1059_001_powershell_marker",
+      "expected_alert": true,
+      "expected_rule_ids": [
+        "det.realtime.t1059_001.powershell_execution"
+      ],
+      "marker": "EDR_DEMO_T1059_001",
+      "reason": "Waiting for marker.",
+      "status": "not_seen",
+      "technique_id": "T1059.001",
+      "window_seconds": 8
+    },
+    {
+      "case_id": "rt_t1105_localhost_transfer",
+      "expected_alert": true,
+      "expected_rule_ids": [
+        "det.realtime.t1105.ingress_tool_transfer",
+        "behavioral.realtime.t1105.process_network_file"
+      ],
+      "marker": "EDR_DEMO_T1105",
+      "reason": "Waiting for marker.",
+      "status": "not_seen",
+      "technique_id": "T1105",
+      "window_seconds": 8
+    },
+    {
+      "case_id": "rt_t1547_001_run_key",
+      "expected_alert": true,
+      "expected_rule_ids": [
+        "det.realtime.t1547_001.registry_run_key"
+      ],
+      "marker": "EDR_DEMO_T1547",
+      "reason": "Waiting for marker.",
+      "status": "not_seen",
+      "technique_id": "T1547.001",
+      "window_seconds": 8
+    },
+    {
+      "case_id": "rt_t1218_lite_rundll32",
+      "expected_alert": true,
+      "expected_rule_ids": [
+        "det.realtime.t1218_lite.rundll32_url_handler"
+      ],
+      "marker": "EDR_DEMO_T1218",
+      "reason": "Waiting for marker.",
+      "status": "not_seen",
+      "technique_id": "T1218",
+      "window_seconds": 8
+    },
+    {
+      "case_id": "rt_benign_cmd_marker",
+      "expected_alert": false,
+      "expected_rule_ids": [],
+      "marker": "EDR_BENIGN_CMD",
+      "reason": "Waiting for marker.",
+      "status": "not_seen",
+      "technique_id": "benign",
+      "window_seconds": 6
+    },
+    {
+      "case_id": "rt_benign_powershell_marker",
+      "expected_alert": false,
+      "expected_rule_ids": [],
+      "marker": "EDR_BENIGN_POWERSHELL",
+      "reason": "Waiting for marker.",
+      "status": "not_seen",
+      "technique_id": "benign",
+      "window_seconds": 6
+    }
+  ],
+  "counts": {
+    "false_negative": 0,
+    "false_positive": 0,
+    "not_seen": 6,
+    "pending": 0,
+    "true_negative": 0,
+    "true_positive": 0
+  },
+  "generated_at": "",
+  "mode": "realtime_evaluation",
+  "observed_case_count": 0
+}

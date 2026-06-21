@@ -1,0 +1,129 @@
+[
+  {
+    "@timestamp": "2026-06-18T01:00:00.000Z",
+    "event": {
+      "id": "demo-behavioral-t1105-process",
+      "kind": "event",
+      "dataset": "windows.sysmon_operational",
+      "code": 1,
+      "category": ["process"],
+      "type": ["start"],
+      "created": "2026-06-18T01:00:00.000Z"
+    },
+    "host": {
+      "name": "WIN11-EDR-LAB",
+      "os": {
+        "type": "windows"
+      }
+    },
+    "user": {
+      "domain": "WIN11-EDR-LAB",
+      "name": "edr-lab"
+    },
+    "process": {
+      "pid": 5100,
+      "entity_id": "{11111111-1111-1111-1111-111111111111}",
+      "name": "certutil.exe",
+      "executable": "C:\\Windows\\System32\\certutil.exe",
+      "command_line": "certutil.exe -urlcache -f http://127.0.0.1/EDR_DEMO_T1105 edr_demo.txt"
+    },
+    "sysmon": {
+      "event_data": {
+        "Image": "C:\\Windows\\System32\\certutil.exe",
+        "CommandLine": "certutil.exe -urlcache -f http://127.0.0.1/EDR_DEMO_T1105 edr_demo.txt"
+      }
+    },
+    "tags": ["ecs_normalized", "sysmon_event_1", "phase14_demo"]
+  },
+  {
+    "@timestamp": "2026-06-18T01:01:00.000Z",
+    "event": {
+      "id": "demo-behavioral-t1105-network",
+      "kind": "event",
+      "dataset": "windows.sysmon_operational",
+      "code": 3,
+      "category": ["network"],
+      "type": ["connection"],
+      "created": "2026-06-18T01:01:00.000Z"
+    },
+    "host": {
+      "name": "WIN11-EDR-LAB",
+      "os": {
+        "type": "windows"
+      }
+    },
+    "user": {
+      "domain": "WIN11-EDR-LAB",
+      "name": "edr-lab"
+    },
+    "process": {
+      "pid": 5100,
+      "entity_id": "{11111111-1111-1111-1111-111111111111}",
+      "name": "certutil.exe",
+      "executable": "C:\\Windows\\System32\\certutil.exe",
+      "command_line": "certutil.exe -urlcache -f http://127.0.0.1/EDR_DEMO_T1105 edr_demo.txt"
+    },
+    "source": {
+      "ip": "127.0.0.1",
+      "port": 49822
+    },
+    "destination": {
+      "ip": "127.0.0.1",
+      "domain": "example.test",
+      "port": 8080
+    },
+    "network": {
+      "transport": "tcp",
+      "direction": "outbound"
+    },
+    "sysmon": {
+      "event_data": {
+        "Image": "C:\\Windows\\System32\\certutil.exe",
+        "DestinationIp": "127.0.0.1",
+        "DestinationHostname": "example.test",
+        "CommandLine": "EDR_DEMO_T1105"
+      }
+    },
+    "tags": ["ecs_normalized", "sysmon_event_3", "phase14_demo"]
+  },
+  {
+    "@timestamp": "2026-06-18T01:02:00.000Z",
+    "event": {
+      "id": "demo-behavioral-t1105-file",
+      "kind": "event",
+      "dataset": "windows.sysmon_operational",
+      "code": 11,
+      "category": ["file"],
+      "type": ["creation"],
+      "created": "2026-06-18T01:02:00.000Z"
+    },
+    "host": {
+      "name": "WIN11-EDR-LAB",
+      "os": {
+        "type": "windows"
+      }
+    },
+    "user": {
+      "domain": "WIN11-EDR-LAB",
+      "name": "edr-lab"
+    },
+    "process": {
+      "pid": 5100,
+      "entity_id": "{11111111-1111-1111-1111-111111111111}",
+      "name": "certutil.exe",
+      "executable": "C:\\Windows\\System32\\certutil.exe"
+    },
+    "file": {
+      "path": "C:\\Users\\edr-lab\\Downloads\\EDR_DEMO_T1105_edr_demo.txt",
+      "name": "EDR_DEMO_T1105_edr_demo.txt",
+      "extension": "txt"
+    },
+    "sysmon": {
+      "event_data": {
+        "Image": "C:\\Windows\\System32\\certutil.exe",
+        "TargetFilename": "C:\\Users\\edr-lab\\Downloads\\EDR_DEMO_T1105_edr_demo.txt"
+      }
+    },
+    "tags": ["ecs_normalized", "sysmon_event_11", "phase14_demo"]
+  }
+]

@@ -1,0 +1,24 @@
+id: sigma_like.t1547_001.registry_run_key_persistence
+title: T1547.001 Registry Run Key Persistence Marker
+status: experimental
+description: Detects safe registry Run/RunOnce persistence markers from normalized Sysmon Event ID 13 telemetry.
+author: edr-project
+logsource:
+  product: windows
+  service: sysmon
+  category: registry_set
+detection:
+  selection:
+    event.dataset: windows.sysmon_operational
+    event.code: 13
+    registry.path|contains:
+      - \Software\Microsoft\Windows\CurrentVersion\Run
+      - \Software\Microsoft\Windows\CurrentVersion\RunOnce
+  condition: selection
+level: high
+confidence: high
+attack:
+  technique_id: T1547.001
+  technique_name: Registry Run Keys / Startup Folder
+  tactic:
+    - Persistence

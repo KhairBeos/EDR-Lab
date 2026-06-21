@@ -1,0 +1,35 @@
+{
+  "@timestamp": "2026-06-18T01:04:00.000Z",
+  "event": {
+    "kind": "event",
+    "dataset": "windows.sysmon_operational",
+    "code": 1,
+    "category": ["process"],
+    "type": ["start"],
+    "created": "2026-06-18T01:04:00.000Z"
+  },
+  "host": {
+    "name": "WIN11-EDR-LAB",
+    "os": {
+      "type": "windows"
+    }
+  },
+  "user": {
+    "domain": "WIN11-EDR-LAB",
+    "name": "edr-lab"
+  },
+  "process": {
+    "pid": 5300,
+    "entity_id": "{33333333-3333-3333-3333-333333333333}",
+    "name": "rundll32.exe",
+    "executable": "C:\\Windows\\System32\\rundll32.exe",
+    "command_line": "rundll32.exe url.dll,FileProtocolHandler http://example.test/EDR_DEMO_T1218"
+  },
+  "sysmon": {
+    "event_data": {
+      "Image": "C:\\Windows\\System32\\rundll32.exe",
+      "CommandLine": "rundll32.exe url.dll,FileProtocolHandler http://example.test/EDR_DEMO_T1218"
+    }
+  },
+  "tags": ["ecs_normalized", "sysmon_event_1", "phase13_demo"]
+}

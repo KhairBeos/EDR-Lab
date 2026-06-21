@@ -1,0 +1,346 @@
+{
+  "covered_techniques": [
+    {
+      "datasource": {
+        "event_code": 1,
+        "event_dataset": "windows.sysmon_operational",
+        "event_type": "process_creation"
+      },
+      "engines": [
+        "native",
+        "sigma-like"
+      ],
+      "tactic": [
+        "Execution"
+      ],
+      "technique_id": "T1059.001",
+      "technique_name": "PowerShell"
+    },
+    {
+      "datasource": {
+        "event_code": "1/3/11",
+        "event_dataset": "windows.sysmon_operational",
+        "event_type": "process_creation, network_connection, file_creation"
+      },
+      "engines": [
+        "native",
+        "sigma-like",
+        "behavioral"
+      ],
+      "tactic": [
+        "Command and Control"
+      ],
+      "technique_id": "T1105",
+      "technique_name": "Ingress Tool Transfer"
+    },
+    {
+      "datasource": {
+        "event_code": "1/13",
+        "event_dataset": "windows.sysmon_operational",
+        "event_type": "process_creation, registry_value_set"
+      },
+      "engines": [
+        "native",
+        "sigma-like",
+        "behavioral"
+      ],
+      "tactic": [
+        "Persistence"
+      ],
+      "technique_id": "T1547.001",
+      "technique_name": "Registry Run Keys / Startup Folder"
+    },
+    {
+      "datasource": {
+        "event_code": 1,
+        "event_dataset": "windows.sysmon_operational",
+        "event_type": "process_creation"
+      },
+      "engines": [
+        "native",
+        "sigma-like",
+        "behavioral"
+      ],
+      "tactic": [
+        "Defense Evasion"
+      ],
+      "technique_id": "T1218",
+      "technique_name": "System Binary Proxy Execution"
+    }
+  ],
+  "engine_coverage_summary": {
+    "behavioral_rule_count": 3,
+    "native_rule_count": 4,
+    "sigma_like_rule_count": 4,
+    "total_rule_count": 11
+  },
+  "generated_at": "2026-06-19T16:30:44Z",
+  "project_phase": "Phase 14 Behavioral Correlation Detection",
+  "rule_inventory": [
+    {
+      "attack": {
+        "tactic": [
+          "Execution"
+        ],
+        "technique_id": "T1059.001",
+        "technique_name": "PowerShell"
+      },
+      "confidence": "high",
+      "engine": "native",
+      "name": "PowerShell Process Execution",
+      "rule_id": "det.t1059_001.powershell_process_start",
+      "severity": "medium",
+      "supported_datasource": {
+        "event_code": 1,
+        "event_dataset": "windows.sysmon_operational"
+      }
+    },
+    {
+      "attack": {
+        "tactic": [
+          "Command and Control"
+        ],
+        "technique_id": "T1105",
+        "technique_name": "Ingress Tool Transfer"
+      },
+      "confidence": "medium",
+      "engine": "native",
+      "name": "T1105 LOLBin Download Marker",
+      "rule_id": "det.t1105.lolbin_download",
+      "severity": "medium",
+      "supported_datasource": {
+        "event_code": "1/3/11",
+        "event_dataset": "windows.sysmon_operational",
+        "event_types": [
+          "process_creation",
+          "network_connection",
+          "file_creation"
+        ]
+      }
+    },
+    {
+      "attack": {
+        "tactic": [
+          "Persistence"
+        ],
+        "technique_id": "T1547.001",
+        "technique_name": "Registry Run Keys / Startup Folder"
+      },
+      "confidence": "high",
+      "engine": "native",
+      "name": "T1547.001 Registry Run Key Persistence Marker",
+      "rule_id": "det.t1547_001.registry_run_key_persistence",
+      "severity": "high",
+      "supported_datasource": {
+        "event_code": "13",
+        "event_dataset": "windows.sysmon_operational",
+        "event_types": [
+          "registry_value_set"
+        ]
+      }
+    },
+    {
+      "attack": {
+        "tactic": [
+          "Defense Evasion"
+        ],
+        "technique_id": "T1218",
+        "technique_name": "System Binary Proxy Execution"
+      },
+      "confidence": "medium",
+      "engine": "native",
+      "name": "T1218 LOLBin Suspicious Execution Marker",
+      "rule_id": "det.t1218.lolbin_suspicious_execution",
+      "severity": "medium",
+      "supported_datasource": {
+        "event_code": "1",
+        "event_dataset": "windows.sysmon_operational",
+        "event_types": [
+          "process_creation"
+        ]
+      }
+    },
+    {
+      "attack": {
+        "tactic": [
+          "Execution"
+        ],
+        "technique_id": "T1059.001",
+        "technique_name": "PowerShell"
+      },
+      "confidence": "high",
+      "engine": "sigma-like",
+      "name": "PowerShell Process Execution",
+      "rule_id": "sigma_like.t1059_001.powershell_process_start",
+      "severity": "medium",
+      "supported_datasource": {
+        "event_code": 1,
+        "event_dataset": "windows.sysmon_operational",
+        "logsource": {
+          "category": "process_creation",
+          "product": "windows",
+          "service": "sysmon"
+        }
+      }
+    },
+    {
+      "attack": {
+        "tactic": [
+          "Command and Control"
+        ],
+        "technique_id": "T1105",
+        "technique_name": "Ingress Tool Transfer"
+      },
+      "confidence": "medium",
+      "engine": "sigma-like",
+      "name": "T1105 LOLBin Download Marker",
+      "rule_id": "sigma_like.t1105.lolbin_download",
+      "severity": "medium",
+      "supported_datasource": {
+        "event_code": 1,
+        "event_dataset": "windows.sysmon_operational",
+        "logsource": {
+          "category": "multi_event",
+          "product": "windows",
+          "service": "sysmon"
+        }
+      }
+    },
+    {
+      "attack": {
+        "tactic": [
+          "Defense Evasion"
+        ],
+        "technique_id": "T1218",
+        "technique_name": "System Binary Proxy Execution"
+      },
+      "confidence": "medium",
+      "engine": "sigma-like",
+      "name": "T1218 LOLBin Suspicious Execution Marker",
+      "rule_id": "sigma_like.t1218.lolbin_suspicious_execution",
+      "severity": "medium",
+      "supported_datasource": {
+        "event_code": 1,
+        "event_dataset": "windows.sysmon_operational",
+        "logsource": {
+          "category": "process_creation",
+          "product": "windows",
+          "service": "sysmon"
+        }
+      }
+    },
+    {
+      "attack": {
+        "tactic": [
+          "Persistence"
+        ],
+        "technique_id": "T1547.001",
+        "technique_name": "Registry Run Keys / Startup Folder"
+      },
+      "confidence": "high",
+      "engine": "sigma-like",
+      "name": "T1547.001 Registry Run Key Persistence Marker",
+      "rule_id": "sigma_like.t1547_001.registry_run_key_persistence",
+      "severity": "high",
+      "supported_datasource": {
+        "event_code": 13,
+        "event_dataset": "windows.sysmon_operational",
+        "logsource": {
+          "category": "registry_set",
+          "product": "windows",
+          "service": "sysmon"
+        }
+      }
+    },
+    {
+      "attack": {
+        "tactic": [
+          "Command and Control"
+        ],
+        "technique_id": "T1105",
+        "technique_name": "Ingress Tool Transfer"
+      },
+      "confidence": "high",
+      "engine": "behavioral",
+      "name": "T1105 behavioral t1105 download sequence",
+      "rule_id": "det.behavioral.t1105_download_sequence",
+      "severity": "high",
+      "supported_datasource": {
+        "correlation_window_seconds": 300,
+        "event_code": "1/3/11",
+        "event_dataset": "windows.sysmon_operational",
+        "event_types": [
+          "process_creation",
+          "network_connection",
+          "file_creation"
+        ]
+      }
+    },
+    {
+      "attack": {
+        "tactic": [
+          "Persistence"
+        ],
+        "technique_id": "T1547.001",
+        "technique_name": "Registry Run Keys / Startup Folder"
+      },
+      "confidence": "high",
+      "engine": "behavioral",
+      "name": "T1547.001 behavioral t1547 001 registry persistence sequence",
+      "rule_id": "det.behavioral.t1547_001_registry_persistence_sequence",
+      "severity": "high",
+      "supported_datasource": {
+        "correlation_window_seconds": 600,
+        "event_code": "1/13",
+        "event_dataset": "windows.sysmon_operational",
+        "event_types": [
+          "process_creation",
+          "registry_value_set"
+        ]
+      }
+    },
+    {
+      "attack": {
+        "tactic": [
+          "Defense Evasion"
+        ],
+        "technique_id": "T1218",
+        "technique_name": "System Binary Proxy Execution"
+      },
+      "confidence": "medium",
+      "engine": "behavioral",
+      "name": "T1218 behavioral t1218 lolbin sequence",
+      "rule_id": "det.behavioral.t1218_lolbin_sequence",
+      "severity": "medium",
+      "supported_datasource": {
+        "correlation_window_seconds": 300,
+        "event_code": "1/3/11",
+        "event_dataset": "windows.sysmon_operational",
+        "event_types": [
+          "process_creation",
+          "network_connection",
+          "file_creation"
+        ]
+      }
+    }
+  ],
+  "validation_results": [
+    {
+      "actual_alert_count": 2,
+      "engine": "all",
+      "expected_alert_count": 2,
+      "fixture_name": "sysmon_event_1_process_create.xml",
+      "normalized_event_count": 1,
+      "passed": true
+    },
+    {
+      "actual_alert_count": 3,
+      "correlated_sequence_count": 3,
+      "engine": "behavioral",
+      "expected_alert_count": 3,
+      "fixture_name": "behavioral_sequence_samples",
+      "normalized_event_count": 6,
+      "passed": true
+    }
+  ]
+}

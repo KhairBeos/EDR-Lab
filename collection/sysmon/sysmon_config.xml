@@ -1,0 +1,86 @@
+<!--
+  EDR Advanced Phase 1 Sysmon telemetry baseline.
+
+  Purpose:
+  - Collect endpoint telemetry needed for Phase 1 validation.
+  - Keep exclusions minimal so Atomic Red Team activity is not hidden.
+  - Avoid encoding detection logic that belongs in later phases.
+-->
+<Sysmon schemaversion="4.90">
+  <HashAlgorithms>SHA256,IMPHASH</HashAlgorithms>
+  <CheckRevocation>false</CheckRevocation>
+
+  <EventFiltering>
+    <!-- Event ID 1: Process Create. Mandatory for Phase 1 process telemetry. -->
+    <ProcessCreate onmatch="exclude">
+      <Image condition="is">C:\Windows\System32\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\System32\Sysmon64.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon64.exe</Image>
+    </ProcessCreate>
+
+    <!-- Event ID 3: Network connection. -->
+    <NetworkConnect onmatch="exclude">
+      <Image condition="is">C:\Windows\System32\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\System32\Sysmon64.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon64.exe</Image>
+    </NetworkConnect>
+
+    <!-- Event ID 7: Image loaded. This is noisy but useful for Phase 1 coverage. -->
+    <ImageLoad onmatch="exclude">
+      <Image condition="is">C:\Windows\System32\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\System32\Sysmon64.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon64.exe</Image>
+    </ImageLoad>
+
+    <!-- Event ID 8: CreateRemoteThread. -->
+    <CreateRemoteThread onmatch="exclude">
+      <SourceImage condition="is">C:\Windows\System32\Sysmon.exe</SourceImage>
+      <SourceImage condition="is">C:\Windows\Sysmon.exe</SourceImage>
+      <SourceImage condition="is">C:\Windows\System32\Sysmon64.exe</SourceImage>
+      <SourceImage condition="is">C:\Windows\Sysmon64.exe</SourceImage>
+    </CreateRemoteThread>
+
+    <!-- Event ID 10: ProcessAccess. -->
+    <ProcessAccess onmatch="exclude">
+      <SourceImage condition="is">C:\Windows\System32\Sysmon.exe</SourceImage>
+      <SourceImage condition="is">C:\Windows\Sysmon.exe</SourceImage>
+      <SourceImage condition="is">C:\Windows\System32\Sysmon64.exe</SourceImage>
+      <SourceImage condition="is">C:\Windows\Sysmon64.exe</SourceImage>
+    </ProcessAccess>
+
+    <!-- Event ID 11: FileCreate. -->
+    <FileCreate onmatch="exclude">
+      <Image condition="is">C:\Windows\System32\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\System32\Sysmon64.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon64.exe</Image>
+    </FileCreate>
+
+    <!-- Event IDs 12, 13, 14: Registry create/delete, value set, and rename. Phase 1 requires 12 and 13. -->
+    <RegistryEvent onmatch="exclude">
+      <Image condition="is">C:\Windows\System32\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\System32\Sysmon64.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon64.exe</Image>
+    </RegistryEvent>
+
+    <!-- Event ID 15: FileCreateStreamHash. -->
+    <FileCreateStreamHash onmatch="exclude">
+      <Image condition="is">C:\Windows\System32\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\System32\Sysmon64.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon64.exe</Image>
+    </FileCreateStreamHash>
+
+    <!-- Event ID 22: DNS query. -->
+    <DnsQuery onmatch="exclude">
+      <Image condition="is">C:\Windows\System32\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon.exe</Image>
+      <Image condition="is">C:\Windows\System32\Sysmon64.exe</Image>
+      <Image condition="is">C:\Windows\Sysmon64.exe</Image>
+    </DnsQuery>
+  </EventFiltering>
+</Sysmon>

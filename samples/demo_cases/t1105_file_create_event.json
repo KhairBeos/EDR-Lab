@@ -1,0 +1,39 @@
+{
+  "@timestamp": "2026-06-18T01:02:00.000Z",
+  "event": {
+    "kind": "event",
+    "dataset": "windows.sysmon_operational",
+    "code": 11,
+    "category": ["file"],
+    "type": ["creation"],
+    "created": "2026-06-18T01:02:00.000Z"
+  },
+  "host": {
+    "name": "WIN11-EDR-LAB",
+    "os": {
+      "type": "windows"
+    }
+  },
+  "user": {
+    "domain": "WIN11-EDR-LAB",
+    "name": "edr-lab"
+  },
+  "process": {
+    "pid": 5100,
+    "entity_id": "{11111111-1111-1111-1111-111111111111}",
+    "name": "certutil.exe",
+    "executable": "C:\\Windows\\System32\\certutil.exe"
+  },
+  "file": {
+    "path": "C:\\Users\\edr-lab\\Downloads\\EDR_DEMO_T1105_edr_demo.txt",
+    "name": "EDR_DEMO_T1105_edr_demo.txt",
+    "extension": "txt"
+  },
+  "sysmon": {
+    "event_data": {
+      "Image": "C:\\Windows\\System32\\certutil.exe",
+      "TargetFilename": "C:\\Users\\edr-lab\\Downloads\\EDR_DEMO_T1105_edr_demo.txt"
+    }
+  },
+  "tags": ["ecs_normalized", "sysmon_event_11", "phase13_demo"]
+}

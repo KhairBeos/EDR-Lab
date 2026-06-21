@@ -1,0 +1,191 @@
+{
+  "description": "Phase 14 Behavioral Correlation Detection visualized for the EDR demo across native, Sigma-like, behavioral, and ML anomaly engines. This reporting layer does not add detection semantics.",
+  "domain": "enterprise-attack",
+  "filters": {
+    "platforms": [
+      "Windows"
+    ]
+  },
+  "hideDisabled": false,
+  "layout": {
+    "aggregateFunction": "average",
+    "countUnscored": false,
+    "layout": "side",
+    "showAggregateScores": false,
+    "showID": false,
+    "showName": true
+  },
+  "name": "EDR Advanced MVP Coverage",
+  "sorting": 0,
+  "techniques": [
+    {
+      "color": "#3182bd",
+      "comment": "T1059.001 covered by native, Sigma-like, and ML anomaly demo evidence using Sysmon Event ID 1 process telemetry.",
+      "metadata": [
+        {
+          "name": "engines",
+          "value": "native, Sigma-like, ML anomaly"
+        },
+        {
+          "name": "rule_ids",
+          "value": "det.t1059_001.powershell_process_start, ml.process_anomaly, sigma_like.t1059_001.powershell_process_start"
+        },
+        {
+          "name": "demo_case_count",
+          "value": "6"
+        },
+        {
+          "name": "true_positive_count",
+          "value": "5"
+        },
+        {
+          "name": "false_positive_count",
+          "value": "1"
+        },
+        {
+          "name": "false_negative_count",
+          "value": "0"
+        },
+        {
+          "name": "telemetry_event_ids",
+          "value": "1"
+        },
+        {
+          "name": "notes",
+          "value": "Includes ML anomaly demo evidence.; Includes demo case evidence.; Includes lab-only response/protection evidence."
+        }
+      ],
+      "score": 4,
+      "tactic": "execution",
+      "techniqueID": "T1059.001"
+    },
+    {
+      "color": "#3182bd",
+      "comment": "T1105 covered by native, Sigma-like, and behavioral detections using Sysmon Event ID 1/3/11 evidence.",
+      "metadata": [
+        {
+          "name": "engines",
+          "value": "native, Sigma-like, behavioral"
+        },
+        {
+          "name": "rule_ids",
+          "value": "det.behavioral.t1105_download_sequence, det.t1105.lolbin_download, sigma_like.t1105.lolbin_download"
+        },
+        {
+          "name": "demo_case_count",
+          "value": "4"
+        },
+        {
+          "name": "true_positive_count",
+          "value": "4"
+        },
+        {
+          "name": "false_positive_count",
+          "value": "0"
+        },
+        {
+          "name": "false_negative_count",
+          "value": "0"
+        },
+        {
+          "name": "telemetry_event_ids",
+          "value": "1, 3, 11"
+        },
+        {
+          "name": "notes",
+          "value": "Includes behavioral correlation coverage.; Includes demo case evidence.; Dashboard sequence count: 1."
+        }
+      ],
+      "score": 4,
+      "tactic": "command-and-control",
+      "techniqueID": "T1105"
+    },
+    {
+      "color": "#3182bd",
+      "comment": "T1547.001 covered by native, Sigma-like, and behavioral detections using Sysmon Event ID 1/13 evidence.",
+      "metadata": [
+        {
+          "name": "engines",
+          "value": "native, Sigma-like, behavioral"
+        },
+        {
+          "name": "rule_ids",
+          "value": "det.behavioral.t1547_001_registry_persistence_sequence, det.t1547_001.registry_run_key_persistence, sigma_like.t1547_001.registry_run_key_persistence"
+        },
+        {
+          "name": "demo_case_count",
+          "value": "2"
+        },
+        {
+          "name": "true_positive_count",
+          "value": "2"
+        },
+        {
+          "name": "false_positive_count",
+          "value": "0"
+        },
+        {
+          "name": "false_negative_count",
+          "value": "0"
+        },
+        {
+          "name": "telemetry_event_ids",
+          "value": "1, 13"
+        },
+        {
+          "name": "notes",
+          "value": "Includes behavioral correlation coverage.; Includes demo case evidence.; Dashboard sequence count: 1."
+        }
+      ],
+      "score": 4,
+      "tactic": "persistence",
+      "techniqueID": "T1547.001"
+    },
+    {
+      "color": "#3182bd",
+      "comment": "T1218 is constrained T1218-lite demo coverage for deterministic LOLBin execution and behavioral sequence evidence.",
+      "metadata": [
+        {
+          "name": "engines",
+          "value": "native, Sigma-like, behavioral"
+        },
+        {
+          "name": "rule_ids",
+          "value": "det.behavioral.t1218_lolbin_sequence, det.t1218.lolbin_suspicious_execution, sigma_like.t1218.lolbin_suspicious_execution"
+        },
+        {
+          "name": "demo_case_count",
+          "value": "1"
+        },
+        {
+          "name": "true_positive_count",
+          "value": "1"
+        },
+        {
+          "name": "false_positive_count",
+          "value": "0"
+        },
+        {
+          "name": "false_negative_count",
+          "value": "0"
+        },
+        {
+          "name": "telemetry_event_ids",
+          "value": "1, 3, 11"
+        },
+        {
+          "name": "notes",
+          "value": "Includes behavioral correlation coverage.; Includes demo case evidence.; T1218-lite is constrained deterministic demo coverage."
+        }
+      ],
+      "score": 4,
+      "tactic": "defense-evasion",
+      "techniqueID": "T1218"
+    }
+  ],
+  "versions": {
+    "attack": "14",
+    "layer": "4.5",
+    "navigator": "4.9.1"
+  }
+}

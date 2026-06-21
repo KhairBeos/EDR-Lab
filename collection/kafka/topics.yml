@@ -1,0 +1,7 @@
+topics:
+  - sysmon-raw
+  - windows-events-raw
+  - art-executions
+  - normalized-events
+  - enriched-events
+  - alerts

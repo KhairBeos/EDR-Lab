@@ -1,0 +1,23 @@
+id: soar.playbook.powershell_execution
+name: PowerShell Execution Response
+status: dry-run
+description: Plan safe dry-run response actions for PowerShell execution alerts.
+match:
+  rule_ids:
+    - det.t1059_001.powershell_process_start
+    - sigma_like.t1059_001.powershell_process_start
+  technique_ids:
+    - T1059.001
+actions:
+  - id: notify_analyst
+    type: notification
+    status: planned
+    description: Notify analyst about PowerShell execution alert.
+  - id: collect_process_context
+    type: collection
+    status: planned
+    description: Collect process, parent process, host, and user context from alert document.
+  - id: recommend_host_review
+    type: recommendation
+    status: planned
+    description: Recommend host review; no containment action is executed.

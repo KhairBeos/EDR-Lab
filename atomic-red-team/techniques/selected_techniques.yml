@@ -1,0 +1,12 @@
+techniques:
+  - technique_id: T1059.001
+    display_name: "Command and Scripting Interpreter: PowerShell"
+    platform: windows
+    executor: powershell
+    test_name: "PowerShell Command Execution"
+    test_guid: a538de64-1c74-46ed-aa60-b995ed302598
+    invoke_atomic_command: "Invoke-AtomicTest T1059.001 -TestGuids a538de64-1c74-46ed-aa60-b995ed302598"
+    safety_notes:
+      - "Phase 1 allows exactly one low-impact PowerShell test."
+      - "Do not run the full T1059.001 technique."
+      - "Take a VM snapshot before execute mode."

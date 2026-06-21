@@ -1,0 +1,35 @@
+{
+  "@timestamp": "2026-06-18T01:06:00.000Z",
+  "event": {
+    "kind": "event",
+    "dataset": "windows.sysmon_operational",
+    "code": 11,
+    "category": ["file"],
+    "type": ["creation"],
+    "created": "2026-06-18T01:06:00.000Z"
+  },
+  "host": {
+    "name": "WIN11-EDR-LAB",
+    "os": {
+      "type": "windows"
+    }
+  },
+  "process": {
+    "pid": 5500,
+    "entity_id": "{55555555-5555-5555-5555-555555555555}",
+    "name": "notepad.exe",
+    "executable": "C:\\Windows\\System32\\notepad.exe"
+  },
+  "file": {
+    "path": "C:\\Users\\edr-lab\\Documents\\notes.txt",
+    "name": "notes.txt",
+    "extension": "txt"
+  },
+  "sysmon": {
+    "event_data": {
+      "Image": "C:\\Windows\\System32\\notepad.exe",
+      "TargetFilename": "C:\\Users\\edr-lab\\Documents\\notes.txt"
+    }
+  },
+  "tags": ["ecs_normalized", "sysmon_event_11", "phase13_demo"]
+}

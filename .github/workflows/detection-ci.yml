@@ -1,0 +1,14 @@
+name: Detection CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  validate-detections:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Future-work placeholder
+        run: |
+          echo "Future-work placeholder only: production detection CI is not implemented in this MVP."
+          echo "Use .github/workflows/ci.yml for the real deterministic test workflow."

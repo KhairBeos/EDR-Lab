@@ -1,0 +1,508 @@
+{
+  "alert_count_by_engine": {
+    "behavioral": 2,
+    "ml-anomaly": 2,
+    "native": 9,
+    "sigma-like": 9
+  },
+  "alert_count_by_rule": {
+    "det.behavioral.t1105_download_sequence": 1,
+    "det.behavioral.t1547_001_registry_persistence_sequence": 1,
+    "det.t1059_001.powershell_process_start": 4,
+    "det.t1105.lolbin_download": 3,
+    "det.t1218.lolbin_suspicious_execution": 1,
+    "det.t1547_001.registry_run_key_persistence": 1,
+    "ml.process_anomaly": 2,
+    "sigma_like.t1059_001.powershell_process_start": 4,
+    "sigma_like.t1105.lolbin_download": 3,
+    "sigma_like.t1218.lolbin_suspicious_execution": 1,
+    "sigma_like.t1547_001.registry_run_key_persistence": 1
+  },
+  "alert_count_by_technique": {
+    "T1059.001": 10,
+    "T1105": 7,
+    "T1218": 2,
+    "T1547.001": 3
+  },
+  "case_rows": [
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "native",
+        "sigma-like"
+      ],
+      "actual_rule_ids": [
+        "det.t1059_001.powershell_process_start",
+        "sigma_like.t1059_001.powershell_process_start"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 2,
+      "case_id": "attack_t1059_001_art_powershell_xml",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 0,
+      "event_code": "1",
+      "expected_alert": true,
+      "expected_protection": "dry-run",
+      "name": "Atomic Red Team T1059.001 PowerShell XML",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "Main live VM path: ART activity -> Sysmon XML -> native/Sigma-like alerts -> SOAR dry-run.",
+      "technique_id": "T1059.001"
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "native",
+        "sigma-like"
+      ],
+      "actual_rule_ids": [
+        "det.t1059_001.powershell_process_start",
+        "sigma_like.t1059_001.powershell_process_start"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 2,
+      "case_id": "attack_t1059_001_fixture_powershell",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 0,
+      "event_code": "1",
+      "expected_alert": true,
+      "expected_protection": "dry-run",
+      "name": "Detectable PowerShell fixture",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "Use this when the VM is unavailable; it proves the same detection engines deterministically.",
+      "technique_id": "T1059.001"
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "ml-anomaly"
+      ],
+      "actual_rule_ids": [
+        "ml.process_anomaly"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 1,
+      "case_id": "attack_ml_encoded_download_json",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 0,
+      "event_code": null,
+      "expected_alert": true,
+      "expected_protection": "none",
+      "name": "ML-style encoded/download indicators",
+      "response_count": 0,
+      "runner_mode": "ml",
+      "teacher_demo_notes": "Shows the ML-style heuristic path without downloading or executing anything.",
+      "technique_id": "T1059.001"
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "native",
+        "sigma-like"
+      ],
+      "actual_rule_ids": [
+        "det.t1059_001.powershell_process_start",
+        "sigma_like.t1059_001.powershell_process_start"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 2,
+      "case_id": "attack_t1059_001_safe_manual_marker_xml",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 0,
+      "event_code": "1",
+      "expected_alert": true,
+      "expected_protection": "dry-run",
+      "name": "Safe manual PowerShell marker XML",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "Clearly label this as fallback, not the primary attack simulator.",
+      "technique_id": "T1059.001"
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "ml-anomaly"
+      ],
+      "actual_rule_ids": [
+        "ml.process_anomaly"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 1,
+      "case_id": "attack_t1059_001_atomic_marker_json",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 0,
+      "event_code": null,
+      "expected_alert": true,
+      "expected_protection": "none",
+      "name": "Atomic marker suspicious normalized JSON",
+      "response_count": 0,
+      "runner_mode": "ml",
+      "teacher_demo_notes": "A local sample for the teacher demo; it is data only and does not execute commands.",
+      "technique_id": "T1059.001"
+    },
+    {
+      "actual_alert": false,
+      "actual_engines": [],
+      "actual_rule_ids": [],
+      "actual_sequence_names": [],
+      "alert_count": 0,
+      "case_id": "benign_cmd_whoami_fixture",
+      "category": "benign",
+      "classification": "true_negative",
+      "correlated_sequence_count": 0,
+      "event_code": null,
+      "expected_alert": false,
+      "expected_protection": "none",
+      "name": "Benign cmd whoami fixture",
+      "response_count": 0,
+      "runner_mode": "live",
+      "teacher_demo_notes": "Demonstrates a true negative for normal command execution.",
+      "technique_id": null
+    },
+    {
+      "actual_alert": false,
+      "actual_engines": [],
+      "actual_rule_ids": [],
+      "actual_sequence_names": [],
+      "alert_count": 0,
+      "case_id": "benign_explorer_cmd_json",
+      "category": "benign",
+      "classification": "true_negative",
+      "correlated_sequence_count": 0,
+      "event_code": null,
+      "expected_alert": false,
+      "expected_protection": "none",
+      "name": "Benign explorer-launched cmd JSON",
+      "response_count": 0,
+      "runner_mode": "ml",
+      "teacher_demo_notes": "Demonstrates a true negative in the ML-style path.",
+      "technique_id": null
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "native",
+        "sigma-like"
+      ],
+      "actual_rule_ids": [
+        "det.t1059_001.powershell_process_start",
+        "sigma_like.t1059_001.powershell_process_start"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 2,
+      "case_id": "analysis_fp_admin_powershell_inventory",
+      "category": "benign",
+      "classification": "false_positive",
+      "correlated_sequence_count": 0,
+      "event_code": "1",
+      "expected_alert": false,
+      "expected_protection": "none",
+      "name": "Admin PowerShell inventory analysis FP",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "Intentional false positive; future tuning could add context, allowlists, or risk scoring.",
+      "technique_id": "T1059.001"
+    },
+    {
+      "actual_alert": false,
+      "actual_engines": [],
+      "actual_rule_ids": [],
+      "actual_sequence_names": [],
+      "alert_count": 0,
+      "case_id": "limitation_fn_non_powershell_execution",
+      "category": "limitation",
+      "classification": "false_negative",
+      "correlated_sequence_count": 0,
+      "event_code": null,
+      "expected_alert": true,
+      "expected_protection": "none",
+      "name": "Non-PowerShell script host limitation FN",
+      "response_count": 0,
+      "runner_mode": "live",
+      "teacher_demo_notes": "Intentional false negative; use it to explain scoped detection coverage.",
+      "technique_id": "T1059"
+    },
+    {
+      "actual_alert": false,
+      "actual_engines": [],
+      "actual_rule_ids": [],
+      "actual_sequence_names": [],
+      "alert_count": 0,
+      "case_id": "benign_ml_common_process_json",
+      "category": "benign",
+      "classification": "true_negative",
+      "correlated_sequence_count": 0,
+      "event_code": null,
+      "expected_alert": false,
+      "expected_protection": "none",
+      "name": "Benign ML common process JSON",
+      "response_count": 0,
+      "runner_mode": "ml",
+      "teacher_demo_notes": "A second true negative for the local deterministic ML path.",
+      "technique_id": null
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "native",
+        "sigma-like"
+      ],
+      "actual_rule_ids": [
+        "det.t1105.lolbin_download",
+        "sigma_like.t1105.lolbin_download"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 2,
+      "case_id": "attack_t1105_process_lolbin_download_json",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 0,
+      "event_code": "1",
+      "expected_alert": true,
+      "expected_protection": "none",
+      "name": "T1105 LOLBin process download marker JSON",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "Shows Command and Control transfer semantics without downloading anything external.",
+      "technique_id": "T1105"
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "native",
+        "sigma-like"
+      ],
+      "actual_rule_ids": [
+        "det.t1105.lolbin_download",
+        "sigma_like.t1105.lolbin_download"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 2,
+      "case_id": "attack_t1105_network_lolbin_download_json",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 0,
+      "event_code": "3",
+      "expected_alert": true,
+      "expected_protection": "none",
+      "name": "T1105 LOLBin network connection JSON",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "Highlights Event ID 3 evidence for transfer behavior.",
+      "technique_id": "T1105"
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "native",
+        "sigma-like"
+      ],
+      "actual_rule_ids": [
+        "det.t1105.lolbin_download",
+        "sigma_like.t1105.lolbin_download"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 2,
+      "case_id": "attack_t1105_file_create_download_json",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 0,
+      "event_code": "11",
+      "expected_alert": true,
+      "expected_protection": "none",
+      "name": "T1105 downloaded file create JSON",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "Highlights file evidence for an ingress transfer story.",
+      "technique_id": "T1105"
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "native",
+        "sigma-like"
+      ],
+      "actual_rule_ids": [
+        "det.t1547_001.registry_run_key_persistence",
+        "sigma_like.t1547_001.registry_run_key_persistence"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 2,
+      "case_id": "attack_t1547_001_registry_run_key_json",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 0,
+      "event_code": "13",
+      "expected_alert": true,
+      "expected_protection": "none",
+      "name": "T1547.001 Registry Run key persistence JSON",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "Shows Persistence coverage without creating a real registry value.",
+      "technique_id": "T1547.001"
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "native",
+        "sigma-like"
+      ],
+      "actual_rule_ids": [
+        "det.t1218.lolbin_suspicious_execution",
+        "sigma_like.t1218.lolbin_suspicious_execution"
+      ],
+      "actual_sequence_names": [],
+      "alert_count": 2,
+      "case_id": "attack_t1218_rundll32_lolbin_json",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 0,
+      "event_code": "1",
+      "expected_alert": true,
+      "expected_protection": "none",
+      "name": "T1218 rundll32 LOLBin marker JSON",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "Label this as T1218-lite; it is deterministic demo coverage, not complete LOLBin analytics.",
+      "technique_id": "T1218"
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "behavioral"
+      ],
+      "actual_rule_ids": [
+        "det.behavioral.t1105_download_sequence"
+      ],
+      "actual_sequence_names": [
+        "t1105_download_sequence"
+      ],
+      "alert_count": 1,
+      "case_id": "attack_behavioral_t1105_sequence_json",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 1,
+      "event_code": "1/3/11",
+      "expected_alert": true,
+      "expected_protection": "none",
+      "name": "Behavioral T1105 process/network/file sequence JSON",
+      "response_count": 0,
+      "runner_mode": "behavioral",
+      "teacher_demo_notes": "Shows Phase 14 behavioral correlation without changing single-event T1105 rules.",
+      "technique_id": "T1105"
+    },
+    {
+      "actual_alert": true,
+      "actual_engines": [
+        "behavioral"
+      ],
+      "actual_rule_ids": [
+        "det.behavioral.t1547_001_registry_persistence_sequence"
+      ],
+      "actual_sequence_names": [
+        "t1547_001_registry_persistence_sequence"
+      ],
+      "alert_count": 1,
+      "case_id": "attack_behavioral_t1547_001_sequence_json",
+      "category": "attack",
+      "classification": "true_positive",
+      "correlated_sequence_count": 1,
+      "event_code": "1/13",
+      "expected_alert": true,
+      "expected_protection": "none",
+      "name": "Behavioral T1547.001 process/registry sequence JSON",
+      "response_count": 0,
+      "runner_mode": "behavioral",
+      "teacher_demo_notes": "Shows Phase 14 persistence correlation with deterministic local JSON events.",
+      "technique_id": "T1547.001"
+    },
+    {
+      "actual_alert": false,
+      "actual_engines": [],
+      "actual_rule_ids": [],
+      "actual_sequence_names": [],
+      "alert_count": 0,
+      "case_id": "benign_behavioral_unrelated_sequence_json",
+      "category": "benign",
+      "classification": "true_negative",
+      "correlated_sequence_count": 0,
+      "event_code": "1/3",
+      "expected_alert": false,
+      "expected_protection": "none",
+      "name": "Benign unrelated behavioral sequence JSON",
+      "response_count": 0,
+      "runner_mode": "behavioral",
+      "teacher_demo_notes": "True negative for the Phase 14 behavioral engine.",
+      "technique_id": null
+    },
+    {
+      "actual_alert": false,
+      "actual_engines": [],
+      "actual_rule_ids": [],
+      "actual_sequence_names": [],
+      "alert_count": 0,
+      "case_id": "benign_phase13_network_json",
+      "category": "benign",
+      "classification": "true_negative",
+      "correlated_sequence_count": 0,
+      "event_code": "3",
+      "expected_alert": false,
+      "expected_protection": "none",
+      "name": "Benign network connection JSON",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "True negative for Event ID 3 style telemetry.",
+      "technique_id": null
+    },
+    {
+      "actual_alert": false,
+      "actual_engines": [],
+      "actual_rule_ids": [],
+      "actual_sequence_names": [],
+      "alert_count": 0,
+      "case_id": "benign_phase13_file_create_json",
+      "category": "benign",
+      "classification": "true_negative",
+      "correlated_sequence_count": 0,
+      "event_code": "11",
+      "expected_alert": false,
+      "expected_protection": "none",
+      "name": "Benign file create JSON",
+      "response_count": 0,
+      "runner_mode": "phase8",
+      "teacher_demo_notes": "True negative for Event ID 11 style telemetry.",
+      "technique_id": null
+    }
+  ],
+  "correlated_sequence_count": 2,
+  "event_count_by_code": {
+    "1": 6,
+    "1/13": 1,
+    "1/3": 1,
+    "1/3/11": 1,
+    "11": 2,
+    "13": 1,
+    "3": 2
+  },
+  "false_negative_count": 1,
+  "false_positive_count": 1,
+  "generated_at": "2026-06-19T16:12:52Z",
+  "protection_count": {
+    "dry-run": 3,
+    "none": 17
+  },
+  "response_count": 0,
+  "sequence_count_by_name": {
+    "t1105_download_sequence": 1,
+    "t1547_001_registry_persistence_sequence": 1
+  },
+  "total_cases": 20,
+  "true_negative_count": 6,
+  "true_positive_count": 12
+}

@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-06-19T16:32:47Z",
+  "included_files": [
+    "final_demo_report.json",
+    "final_demo_report.md",
+    "detection_coverage_report.json",
+    "detection_coverage_report.md",
+    "edr_attack_layer.json",
+    "coverage_summary.md",
+    "demo_evidence_checklist.md",
+    "command_log_template.md",
+    "manifest.json"
+  ],
+  "missing_optional_files": []
+}

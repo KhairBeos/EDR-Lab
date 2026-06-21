@@ -1,0 +1,65 @@
+{
+  "common_process_names": [
+    "cmd.exe",
+    "powershell.exe",
+    "explorer.exe",
+    "conhost.exe",
+    "svchost.exe"
+  ],
+  "allowed_parent_child_pairs": [
+    {
+      "parent": "powershell.exe",
+      "child": "cmd.exe"
+    },
+    {
+      "parent": "explorer.exe",
+      "child": "cmd.exe"
+    },
+    {
+      "parent": "explorer.exe",
+      "child": "powershell.exe"
+    },
+    {
+      "parent": "cmd.exe",
+      "child": "conhost.exe"
+    }
+  ],
+  "max_command_line_length": 120,
+  "max_args_count": 8,
+  "suspicious_keywords": [
+    "encodedcommand",
+    "invoke-webrequest",
+    "downloadstring",
+    "webclient",
+    "netcat",
+    "nc",
+    "wget",
+    "curl"
+  ],
+  "normal_hours": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ]
+}

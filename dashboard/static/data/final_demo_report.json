@@ -1,0 +1,235 @@
+{
+  "capability_matrix": [
+    {
+      "capability": "telemetry",
+      "description": "Elastic/Kibana/Logstash local lab and Sysmon Event ID 1 fixture telemetry.",
+      "primary_command": "python scripts\\smoke\\end_to_end_art_telemetry_smoke.py",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "normalization",
+      "description": "Normalizes Sysmon Event ID 1 process creation XML into ECS-like documents.",
+      "primary_command": "normalization/sysmon/process_create_normalizer.py",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "native_detection",
+      "description": "Detects PowerShell process execution using native rule logic.",
+      "primary_command": "python scripts\\detection\\run_native_detection.py",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "sigma_like_detection",
+      "description": "Detects PowerShell process execution using Sigma-like rule logic.",
+      "primary_command": "python scripts\\pipeline\\run_live_telemetry_pipeline.py --input fixture --fixture-detectable-powershell --engine sigma-like",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "kafka_transport",
+      "description": "Transports normalized event messages through deterministic Kafka dry-run producer/consumer paths.",
+      "primary_command": "python scripts\\kafka\\consume_and_detect.py --dry-run-fixture --engine all",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "alert_indexing",
+      "description": "Indexes alert documents into edr-alerts-native-* through the existing alert indexer.",
+      "primary_command": "detection/rules/native/alert_indexer.py",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "soar_dry_run",
+      "description": "Plans dry-run SOAR response records for matching alerts.",
+      "primary_command": "python scripts\\response\\run_soar_response.py --input fixture-alert",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "ml_anomaly",
+      "description": "Scores process anomaly features against a deterministic local baseline.",
+      "primary_command": "python scripts\\ml\\run_process_anomaly_detection.py --input fixture",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "reporting",
+      "description": "Generates detection coverage and final demo reports.",
+      "primary_command": "python scripts\\reporting\\generate_final_demo_report.py",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "attack_navigator_export",
+      "description": "Exports the local coverage matrix as reports/attack_navigator/edr_attack_layer.json and reports/attack_navigator/coverage_summary.md.",
+      "primary_command": "python scripts\\reporting\\generate_attack_navigator_layer.py",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "multi_technique_detection",
+      "description": "Detects safe demo coverage for T1105, T1547.001, and T1218 using Sysmon Event ID 1/3/11/13 evidence.",
+      "primary_command": "docs/multi_technique_detection_coverage.md",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "behavioral_correlation",
+      "description": "Correlates normalized process, network, file, and registry telemetry into deterministic attack sequences.",
+      "primary_command": "docs/behavioral_correlation_detection.md",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "demo_case_matrix",
+      "description": "Generates the Phase 9 10-case demo matrix for TP/TN/FP/FN classification.",
+      "primary_command": "python scripts\\demo\\run_demo_case_matrix.py --output reports\\demo_cases\\case_matrix.json",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "tp_tn_fp_fn_classification",
+      "description": "Keeps true positives, true negatives, false positives, and false negatives visible as evaluation evidence.",
+      "primary_command": "reports/demo_cases/dashboard_data.json",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "lab_only_protection_action",
+      "description": "Builds guarded Phase 10 lab-only kill-process protection records with dry-run default.",
+      "primary_command": "python scripts\\response\\run_protection_action.py --input fixture-alert --action kill-process --output summary",
+      "status": "implemented",
+      "validation": "passed"
+    },
+    {
+      "capability": "protection_action_index",
+      "description": "Stores lab-only protection evidence in edr-protection-actions-* when indexing is requested.",
+      "primary_command": "edr-protection-actions-*",
+      "status": "implemented",
+      "validation": "passed"
+    }
+  ],
+  "correlated_sequence_count": 3,
+  "demo_command_checklist": [
+    "python scripts\\smoke\\end_to_end_art_telemetry_smoke.py",
+    "python scripts\\detection\\run_native_detection.py",
+    "python scripts\\pipeline\\run_live_telemetry_pipeline.py --input fixture --fixture-detectable-powershell --engine all",
+    "python scripts\\kafka\\produce_normalized_event.py --input fixture --fixture-detectable-powershell --dry-run",
+    "python scripts\\kafka\\consume_and_detect.py --dry-run-fixture --engine all",
+    "python scripts\\response\\run_soar_response.py --input fixture-alert",
+    "python scripts\\response\\run_protection_action.py --input fixture-alert --action kill-process --output summary",
+    "python scripts\\ml\\run_process_anomaly_detection.py --input fixture",
+    "python scripts\\reporting\\generate_detection_coverage_report.py",
+    "python scripts\\reporting\\generate_final_demo_report.py",
+    "python scripts\\reporting\\generate_attack_navigator_layer.py",
+    "python scripts\\demo\\run_demo_case_matrix.py --output reports\\demo_cases\\case_matrix.json",
+    "python scripts\\demo\\generate_demo_dashboard_data.py --case-matrix reports\\demo_cases\\case_matrix.json --output reports\\demo_cases\\dashboard_data.json"
+  ],
+  "generated_at": "2026-06-19T16:30:47Z",
+  "implemented_phases": [
+    "Phase 1 Foundation",
+    "Phase 2 Native Detection Pipeline MVP",
+    "Phase 3 Live Telemetry Pipeline, Sigma-like Detection, and Coverage Report",
+    "Phase 4 Kafka Normalized Event Detection Pipeline",
+    "Phase 5 SOAR Dry-run Response Pipeline",
+    "Phase 6 ML-style Process Anomaly Detection MVP",
+    "Phase 7 Final Demo Report and Operator Dashboard MVP",
+    "Phase 8 ART / Sysmon VM Demo",
+    "Phase 9 10-case TP/TN/FP/FN Demo Case Matrix",
+    "Phase 10 Lab-only Kill-process Protection Action",
+    "Phase 13 Multi-technique ATT&CK Demo Detection",
+    "Phase 14 Behavioral Correlation Detection",
+    "Phase 15 ATT&CK Navigator Coverage Export"
+  ],
+  "known_limitations": [
+    "Elasticsearch and Kibana are optional unless live index counts are requested.",
+    "Kafka validation uses deterministic in-memory dry-run paths, not a required live broker.",
+    "SOAR remains dry-run response planning and does not execute production containment.",
+    "Lab-only kill-process requires explicit --execute-protection and --lab-allow-execute flags.",
+    "ML anomaly detection is heuristic and deterministic, not trained production ML.",
+    "Behavioral correlation is deterministic local sequence matching, not full endpoint graph analytics.",
+    "ATT&CK Navigator scores are demo communication scores, not production detection maturity scores."
+  ],
+  "out_of_scope": [
+    "New Sysmon Event IDs",
+    "TheHive",
+    "Production containment",
+    "Host isolation or network blocking",
+    "Dashboards requiring Kibana API",
+    "Heavy ML frameworks",
+    "Graph database backed endpoint analytics",
+    "Streaming behavioral state",
+    "Full enterprise ATT&CK coverage"
+  ],
+  "project_status": "Phase 15 ATT&CK Navigator export ready",
+  "validation_results": [
+    {
+      "alert_count": 1,
+      "details": "Expected one native alert, got 1.",
+      "id": "live_telemetry_native",
+      "name": "Live telemetry fixture produces native PowerShell alert",
+      "status": "passed"
+    },
+    {
+      "alert_count": 1,
+      "details": "Expected one Sigma-like alert, got 1.",
+      "id": "live_telemetry_sigma_like",
+      "name": "Live telemetry fixture produces Sigma-like PowerShell alert",
+      "status": "passed"
+    },
+    {
+      "alert_count": 1,
+      "details": "Expected one native Kafka alert, got 1.",
+      "id": "kafka_native",
+      "name": "Kafka dry-run fixture produces native PowerShell alert",
+      "status": "passed"
+    },
+    {
+      "alert_count": 1,
+      "details": "Expected one Sigma-like Kafka alert, got 1.",
+      "id": "kafka_sigma_like",
+      "name": "Kafka dry-run fixture produces Sigma-like PowerShell alert",
+      "status": "passed"
+    },
+    {
+      "details": "Expected one response record, got 1.",
+      "id": "soar_fixture_response",
+      "name": "SOAR fixture alert produces one dry-run response record",
+      "response_count": 1,
+      "status": "passed"
+    },
+    {
+      "alert_count": 0,
+      "details": "Expected low score and no alert, got score 0.0 and 0 alerts.",
+      "id": "ml_fixture_scoring",
+      "name": "ML benign fixture produces low score and no alert",
+      "score": 0.0,
+      "status": "passed"
+    },
+    {
+      "alert_count": 2,
+      "details": "Coverage report produced 2 fixture alerts.",
+      "id": "detection_coverage_report",
+      "name": "Detection coverage report validation passes",
+      "status": "passed"
+    },
+    {
+      "details": "Covered techniques: T1059.001, T1105, T1218, T1547.001.",
+      "id": "multi_technique_detection",
+      "name": "Coverage report includes Phase 13 and Phase 14 multi-technique rules",
+      "rule_count": 11,
+      "status": "passed"
+    },
+    {
+      "correlated_sequence_count": 3,
+      "details": "Behavioral rules matched: det.behavioral.t1105_download_sequence, det.behavioral.t1218_lolbin_sequence, det.behavioral.t1547_001_registry_persistence_sequence.",
+      "id": "behavioral_correlation",
+      "name": "Behavioral correlation detects deterministic Phase 14 sequences",
+      "status": "passed"
+    }
+  ]
+}

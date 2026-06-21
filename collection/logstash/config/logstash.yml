@@ -1,0 +1,5 @@
+api.http.host: "0.0.0.0"
+log.level: info
+pipeline.ecs_compatibility: v8
+pipeline.ordered: auto
+xpack.monitoring.enabled: false

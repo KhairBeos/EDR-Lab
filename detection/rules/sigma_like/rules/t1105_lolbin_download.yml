@@ -1,0 +1,25 @@
+id: sigma_like.t1105.lolbin_download
+title: T1105 LOLBin Download Marker
+status: experimental
+description: Detects safe LOLBin download markers across process, network, and file-create demo telemetry.
+author: edr-project
+logsource:
+  product: windows
+  service: sysmon
+  category: multi_event
+detection:
+  selection:
+    event.dataset: windows.sysmon_operational
+    event.code: 1
+    process.command_line|contains:
+      - EDR_DEMO_T1105
+      - http://127.0.0.1
+      - example.test
+  condition: selection
+level: medium
+confidence: medium
+attack:
+  technique_id: T1105
+  technique_name: Ingress Tool Transfer
+  tactic:
+    - Command and Control

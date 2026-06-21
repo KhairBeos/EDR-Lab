@@ -1,0 +1,38 @@
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Sysmon" Guid="{5770385f-c22a-43e0-bf4c-06f5698ffbd9}" />
+    <EventID>3</EventID>
+    <Version>5</Version>
+    <Level>4</Level>
+    <Task>3</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x8000000000000000</Keywords>
+    <TimeCreated SystemTime="2026-06-18T03:10:00.0000000Z" />
+    <EventRecordID>3001</EventRecordID>
+    <Correlation />
+    <Execution ProcessID="4280" ThreadID="5124" />
+    <Channel>Microsoft-Windows-Sysmon/Operational</Channel>
+    <Computer>WIN11-EDR-LAB</Computer>
+    <Security UserID="S-1-5-18" />
+  </System>
+  <EventData>
+    <Data Name="RuleName">-</Data>
+    <Data Name="UtcTime">2026-06-18 03:10:00.000</Data>
+    <Data Name="ProcessGuid">{9f7f5c20-3000-6666-0100-000000000401}</Data>
+    <Data Name="ProcessId">6120</Data>
+    <Data Name="Image">C:\Windows\System32\certutil.exe</Data>
+    <Data Name="User">WIN11-EDR-LAB\edr-lab</Data>
+    <Data Name="Protocol">tcp</Data>
+    <Data Name="Initiated">true</Data>
+    <Data Name="SourceIsIpv6">false</Data>
+    <Data Name="SourceIp">127.0.0.1</Data>
+    <Data Name="SourceHostname">WIN11-EDR-LAB</Data>
+    <Data Name="SourcePort">49712</Data>
+    <Data Name="SourcePortName">-</Data>
+    <Data Name="DestinationIsIpv6">false</Data>
+    <Data Name="DestinationIp">127.0.0.1</Data>
+    <Data Name="DestinationHostname">example.test</Data>
+    <Data Name="DestinationPort">80</Data>
+    <Data Name="DestinationPortName">http</Data>
+  </EventData>
+</Event>

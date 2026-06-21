@@ -1,0 +1,40 @@
+{
+  "@timestamp": "2026-06-18T01:05:00.000Z",
+  "event": {
+    "kind": "event",
+    "dataset": "windows.sysmon_operational",
+    "code": 3,
+    "category": ["network"],
+    "type": ["connection"],
+    "created": "2026-06-18T01:05:00.000Z"
+  },
+  "host": {
+    "name": "WIN11-EDR-LAB",
+    "os": {
+      "type": "windows"
+    }
+  },
+  "process": {
+    "pid": 5400,
+    "entity_id": "{44444444-4444-4444-4444-444444444444}",
+    "name": "svchost.exe",
+    "executable": "C:\\Windows\\System32\\svchost.exe",
+    "command_line": "svchost.exe -k NetworkService"
+  },
+  "destination": {
+    "ip": "10.0.0.10",
+    "domain": "intranet.local",
+    "port": 443
+  },
+  "network": {
+    "transport": "tcp",
+    "direction": "outbound"
+  },
+  "sysmon": {
+    "event_data": {
+      "Image": "C:\\Windows\\System32\\svchost.exe",
+      "DestinationHostname": "intranet.local"
+    }
+  },
+  "tags": ["ecs_normalized", "sysmon_event_3", "phase13_demo"]
+}

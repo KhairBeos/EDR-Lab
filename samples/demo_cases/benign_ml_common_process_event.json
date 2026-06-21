@@ -1,0 +1,40 @@
+{
+  "@timestamp": "2026-06-17T11:00:00Z",
+  "event": {
+    "dataset": "windows.sysmon_operational",
+    "code": 1,
+    "kind": "event",
+    "category": ["process"],
+    "type": ["start"],
+    "created": "2026-06-17T11:00:00Z"
+  },
+  "host": {
+    "name": "WIN11-EDR-LAB"
+  },
+  "user": {
+    "name": "edr-lab",
+    "domain": "WIN11-EDR-LAB"
+  },
+  "process": {
+    "pid": 7504,
+    "entity_id": "{9f7f5c20-9999-6666-0100-000000000906}",
+    "name": "cmd.exe",
+    "executable": "C:\\Windows\\System32\\cmd.exe",
+    "command_line": "cmd.exe /c whoami",
+    "args": ["cmd.exe", "/c", "whoami"],
+    "parent": {
+      "pid": 4460,
+      "entity_id": "{9f7f5c20-9999-6666-ff00-000000000906}",
+      "name": "explorer.exe",
+      "executable": "C:\\Windows\\explorer.exe",
+      "command_line": "C:\\Windows\\explorer.exe"
+    }
+  },
+  "sysmon": {
+    "event_data": {
+      "ProcessGuid": "{9f7f5c20-9999-6666-0100-000000000906}",
+      "ParentProcessGuid": "{9f7f5c20-9999-6666-ff00-000000000906}"
+    }
+  },
+  "tags": ["ecs_normalized", "sysmon_event_1", "phase_9_demo", "safe_sample"]
+}

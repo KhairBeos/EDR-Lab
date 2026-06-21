@@ -1,0 +1,48 @@
+{
+  "@timestamp": "2026-06-17T10:40:00Z",
+  "event": {
+    "dataset": "windows.sysmon_operational",
+    "code": 1,
+    "kind": "event",
+    "category": ["process"],
+    "type": ["start"],
+    "created": "2026-06-17T10:40:00Z"
+  },
+  "host": {
+    "name": "WIN11-EDR-LAB"
+  },
+  "user": {
+    "name": "edr-lab",
+    "domain": "WIN11-EDR-LAB"
+  },
+  "process": {
+    "pid": 7304,
+    "entity_id": "{9f7f5c20-7777-6666-0100-000000000904}",
+    "name": "atomic_marker_demo.exe",
+    "executable": "C:\\Users\\Public\\atomic_marker_demo.exe",
+    "command_line": "atomic_marker_demo.exe -EncodedCommand RQBEAFIAXwBBAFQATwBNAEkAQwBfAE0AQQBSAEsARQBS DownloadString WebClient --atomic-red-team --safe-marker",
+    "args": [
+      "atomic_marker_demo.exe",
+      "-EncodedCommand",
+      "RQBEAFIAXwBBAFQATwBNAEkAQwBfAE0AQQBSAEsARQBS",
+      "DownloadString",
+      "WebClient",
+      "--atomic-red-team",
+      "--safe-marker"
+    ],
+    "parent": {
+      "pid": 3312,
+      "entity_id": "{9f7f5c20-7777-6666-ff00-000000000904}",
+      "name": "powershell.exe",
+      "executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "command_line": "powershell.exe Invoke-AtomicTest T1059.001 -GetPrereqs"
+    }
+  },
+  "sysmon": {
+    "event_data": {
+      "ProcessGuid": "{9f7f5c20-7777-6666-0100-000000000904}",
+      "ParentProcessGuid": "{9f7f5c20-7777-6666-ff00-000000000904}"
+    }
+  },
+  "tags": ["ecs_normalized", "sysmon_event_1", "phase_9_demo", "safe_sample"]
+}

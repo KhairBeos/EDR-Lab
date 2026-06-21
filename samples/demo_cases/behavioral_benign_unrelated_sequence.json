@@ -1,0 +1,70 @@
+[
+  {
+    "@timestamp": "2026-06-18T01:00:00.000Z",
+    "event": {
+      "id": "demo-behavioral-benign-process",
+      "kind": "event",
+      "dataset": "windows.sysmon_operational",
+      "code": 1,
+      "category": ["process"],
+      "type": ["start"],
+      "created": "2026-06-18T01:00:00.000Z"
+    },
+    "host": {
+      "name": "WIN11-EDR-LAB",
+      "os": {
+        "type": "windows"
+      }
+    },
+    "user": {
+      "domain": "WIN11-EDR-LAB",
+      "name": "edr-lab"
+    },
+    "process": {
+      "pid": 6100,
+      "entity_id": "{44444444-4444-4444-4444-444444444444}",
+      "name": "notepad.exe",
+      "executable": "C:\\Windows\\System32\\notepad.exe",
+      "command_line": "notepad.exe C:\\Users\\edr-lab\\Documents\\notes.txt"
+    },
+    "tags": ["ecs_normalized", "sysmon_event_1", "phase14_demo"]
+  },
+  {
+    "@timestamp": "2026-06-18T01:01:00.000Z",
+    "event": {
+      "id": "demo-behavioral-benign-network",
+      "kind": "event",
+      "dataset": "windows.sysmon_operational",
+      "code": 3,
+      "category": ["network"],
+      "type": ["connection"],
+      "created": "2026-06-18T01:01:00.000Z"
+    },
+    "host": {
+      "name": "WIN11-EDR-LAB",
+      "os": {
+        "type": "windows"
+      }
+    },
+    "process": {
+      "pid": 6200,
+      "entity_id": "{55555555-5555-5555-5555-555555555555}",
+      "name": "svchost.exe",
+      "executable": "C:\\Windows\\System32\\svchost.exe"
+    },
+    "source": {
+      "ip": "10.0.0.10",
+      "port": 49700
+    },
+    "destination": {
+      "ip": "10.0.0.1",
+      "domain": "gateway.local",
+      "port": 53
+    },
+    "network": {
+      "transport": "udp",
+      "direction": "outbound"
+    },
+    "tags": ["ecs_normalized", "sysmon_event_3", "phase14_demo"]
+  }
+]

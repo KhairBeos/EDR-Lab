@@ -1,0 +1,43 @@
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Sysmon" Guid="{5770385f-c22a-43e0-bf4c-06f5698ffbd9}" />
+    <EventID>1</EventID>
+    <Version>5</Version>
+    <Level>4</Level>
+    <Task>1</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x8000000000000000</Keywords>
+    <TimeCreated SystemTime="2026-06-17T10:30:00.0000000Z" />
+    <EventRecordID>8301</EventRecordID>
+    <Correlation />
+    <Execution ProcessID="4280" ThreadID="5124" />
+    <Channel>Microsoft-Windows-Sysmon/Operational</Channel>
+    <Computer>WIN11-EDR-LAB</Computer>
+    <Security UserID="S-1-5-18" />
+  </System>
+  <EventData>
+    <Data Name="RuleName">-</Data>
+    <Data Name="UtcTime">2026-06-17 10:30:00.000</Data>
+    <Data Name="ProcessGuid">{9f7f5c20-6666-6666-0100-000000000903}</Data>
+    <Data Name="ProcessId">6404</Data>
+    <Data Name="Image">C:\Windows\System32\wscript.exe</Data>
+    <Data Name="FileVersion">10.0.26100.1 (WinBuild.160101.0800)</Data>
+    <Data Name="Description">Microsoft Windows Based Script Host</Data>
+    <Data Name="Product">Microsoft Windows Operating System</Data>
+    <Data Name="Company">Microsoft Corporation</Data>
+    <Data Name="OriginalFileName">wscript.exe</Data>
+    <Data Name="CommandLine">wscript.exe C:\Users\edr-lab\EDR_DEMO_SCRIPT_MARKER.vbs</Data>
+    <Data Name="CurrentDirectory">C:\Users\edr-lab\</Data>
+    <Data Name="User">WIN11-EDR-LAB\edr-lab</Data>
+    <Data Name="LogonGuid">{9f7f5c20-1c5a-6666-4c1f-030000000000}</Data>
+    <Data Name="LogonId">0x31f4c</Data>
+    <Data Name="TerminalSessionId">1</Data>
+    <Data Name="IntegrityLevel">Medium</Data>
+    <Data Name="Hashes">SHA256=2E8E6A45B0B2C8E7B2C9C0E7C91A7D041E3F0631D4C2F9309B5F31C9A1F0D004,IMPHASH=00000000000000000000000000000000</Data>
+    <Data Name="ParentProcessGuid">{9f7f5c20-1c58-6666-ff00-000000000400}</Data>
+    <Data Name="ParentProcessId">4460</Data>
+    <Data Name="ParentImage">C:\Windows\explorer.exe</Data>
+    <Data Name="ParentCommandLine">C:\Windows\explorer.exe</Data>
+    <Data Name="ParentUser">WIN11-EDR-LAB\edr-lab</Data>
+  </EventData>
+</Event>

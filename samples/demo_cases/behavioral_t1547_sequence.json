@@ -1,0 +1,81 @@
+[
+  {
+    "@timestamp": "2026-06-18T01:00:00.000Z",
+    "event": {
+      "id": "demo-behavioral-t1547-process",
+      "kind": "event",
+      "dataset": "windows.sysmon_operational",
+      "code": 1,
+      "category": ["process"],
+      "type": ["start"],
+      "created": "2026-06-18T01:00:00.000Z"
+    },
+    "host": {
+      "name": "WIN11-EDR-LAB",
+      "os": {
+        "type": "windows"
+      }
+    },
+    "user": {
+      "domain": "WIN11-EDR-LAB",
+      "name": "edr-lab"
+    },
+    "process": {
+      "pid": 5244,
+      "entity_id": "{22222222-2222-2222-2222-222222222222}",
+      "name": "reg.exe",
+      "executable": "C:\\Windows\\System32\\reg.exe",
+      "command_line": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v EDRDemo /d \"powershell.exe -NoProfile -Command Write-Output EDR_DEMO_T1547\""
+    },
+    "sysmon": {
+      "event_data": {
+        "Image": "C:\\Windows\\System32\\reg.exe",
+        "CommandLine": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v EDRDemo /d \"powershell.exe -NoProfile -Command Write-Output EDR_DEMO_T1547\""
+      }
+    },
+    "tags": ["ecs_normalized", "sysmon_event_1", "phase14_demo"]
+  },
+  {
+    "@timestamp": "2026-06-18T01:01:00.000Z",
+    "event": {
+      "id": "demo-behavioral-t1547-registry",
+      "kind": "event",
+      "dataset": "windows.sysmon_operational",
+      "code": 13,
+      "category": ["registry"],
+      "type": ["change"],
+      "created": "2026-06-18T01:01:00.000Z"
+    },
+    "host": {
+      "name": "WIN11-EDR-LAB",
+      "os": {
+        "type": "windows"
+      }
+    },
+    "user": {
+      "domain": "WIN11-EDR-LAB",
+      "name": "edr-lab"
+    },
+    "process": {
+      "pid": 5244,
+      "entity_id": "{22222222-2222-2222-2222-222222222222}",
+      "name": "reg.exe",
+      "executable": "C:\\Windows\\System32\\reg.exe"
+    },
+    "registry": {
+      "path": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\EDRDemo",
+      "value": "EDRDemo",
+      "data": {
+        "strings": "powershell.exe -NoProfile -Command Write-Output EDR_DEMO_T1547"
+      }
+    },
+    "sysmon": {
+      "event_data": {
+        "Image": "C:\\Windows\\System32\\reg.exe",
+        "TargetObject": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\EDRDemo",
+        "Details": "powershell.exe -NoProfile -Command Write-Output EDR_DEMO_T1547"
+      }
+    },
+    "tags": ["ecs_normalized", "sysmon_event_13", "phase14_demo"]
+  }
+]

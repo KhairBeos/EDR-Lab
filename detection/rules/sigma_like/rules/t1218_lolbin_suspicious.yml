@@ -1,0 +1,28 @@
+id: sigma_like.t1218.lolbin_suspicious_execution
+title: T1218 LOLBin Suspicious Execution Marker
+status: experimental
+description: Detects safe rundll32/regsvr32/mshta proxy execution markers for deterministic T1218-lite demos.
+author: edr-project
+logsource:
+  product: windows
+  service: sysmon
+  category: process_creation
+detection:
+  selection:
+    event.dataset: windows.sysmon_operational
+    event.code: 1
+    process.command_line|contains:
+      - EDR_DEMO_T1218
+      - javascript:
+      - scrobj.dll
+      - url.dll,FileProtocolHandler
+      - suspicious.dll
+      - example.test
+  condition: selection
+level: medium
+confidence: medium
+attack:
+  technique_id: T1218
+  technique_name: System Binary Proxy Execution
+  tactic:
+    - Defense Evasion

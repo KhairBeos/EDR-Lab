@@ -1,0 +1,30 @@
+{
+  "alert_count": 0,
+  "alert_count_by_engine": {},
+  "alert_count_by_technique": {},
+  "collector": "stopped",
+  "collector_running": false,
+  "elasticsearch": "disconnected",
+  "elasticsearch_last_error": "Elasticsearch URL is not configured.",
+  "event_count": 0,
+  "event_count_by_code": {},
+  "evaluation_case_count": 6,
+  "evaluation_counts": {
+    "false_negative": 0,
+    "false_positive": 0,
+    "not_seen": 6,
+    "pending": 0,
+    "true_negative": 0,
+    "true_positive": 0
+  },
+  "evaluation_observed_case_count": 0,
+  "generated_at": "",
+  "last_error": "",
+  "last_poll_at": "",
+  "latest_alert_at": "",
+  "latest_event_at": "",
+  "log_name": "Microsoft-Windows-Sysmon/Operational",
+  "mode": "realtime",
+  "severity_counts": {},
+  "started_at": ""
+}

@@ -1,0 +1,25 @@
+id: det.t1059_001.powershell_process_start
+version: 1
+name: PowerShell Process Execution
+description: Detects Windows PowerShell process creation from normalized Sysmon Event ID 1 ECS documents.
+severity: medium
+confidence: high
+attack:
+  technique_id: T1059.001
+  technique_name: PowerShell
+  tactic:
+    - Execution
+data_source:
+  event_dataset: windows.sysmon_operational
+  event_code: 1
+match:
+  any:
+    - field: process.name
+      equals_any:
+        - powershell.exe
+    - field: process.executable
+      endswith_any:
+        - \powershell.exe
+    - field: process.command_line
+      contains_any:
+        - powershell.exe
