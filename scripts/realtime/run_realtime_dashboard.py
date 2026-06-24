@@ -249,6 +249,23 @@ $rows | ConvertTo-Json -Depth 8 -Compress
 """
 
 
+def start_static_server(host: str, port: int, directory: Path) -> None:
+    """Start a background thread serving the static dashboard files."""
+    from http.server import SimpleHTTPRequestHandler
+
+    class SilentSimpleHTTPRequestHandler(SimpleHTTPRequestHandler):
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            super().__init__(*args, directory=str(directory), **kwargs)
+
+        def log_message(self, format: str, *args: Any) -> None:  # noqa: A003
+            # Keep console clean by silencing static file requests.
+            pass
+
+    server = ThreadingHTTPServer((host, port), SilentSimpleHTTPRequestHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+
+
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the local realtime EDR dashboard API.")
     parser.add_argument("--port", type=int, default=8090)
@@ -262,6 +279,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     )
     parser.add_argument("--elastic-timeout", type=int, default=3)
     parser.add_argument("--no-collector", action="store_true", help="Serve API/static buffers without polling Sysmon.")
+    parser.add_argument(
+        "--static-port",
+        type=int,
+        default=8088,
+        help="Port to serve the static dashboard. Set to 0 to disable.",
+    )
     return parser.parse_args(argv)
 
 
@@ -282,6 +305,13 @@ def main(argv: list[str] | None = None) -> int:
         collector = SysmonRealtimeCollector(store=store, poll_interval=args.poll_interval, log_name=args.log_name)
         collector.start()
 
+    if args.static_port > 0:
+        static_dir = REPO_ROOT / "dashboard" / "static"
+        try:
+            start_static_server(host=args.host, port=args.static_port, directory=static_dir)
+        except Exception as exc:
+            print(f"Warning: Could not start static server on port {args.static_port}: {exc}", file=sys.stderr)
+
     RealtimeApiHandler.store = store
     RealtimeApiHandler.stream_interval = args.poll_interval
     server = ThreadingHTTPServer((args.host, args.port), RealtimeApiHandler)
@@ -291,7 +321,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Elasticsearch realtime sink: {elastic_url} ({store.elasticsearch_status})")
     else:
         print("Elasticsearch realtime sink: disabled; set EDR_ELASTICSEARCH_URL or pass --elastic-url to enable.")
-    print(f"Dashboard static server command: python -m http.server 8088 -d dashboard/static")
+    if args.static_port > 0:
+        print(f"Static Dashboard server started automatically at http://{args.host}:{args.static_port}")
     print("Press Ctrl+C to stop.")
     try:
         server.serve_forever()

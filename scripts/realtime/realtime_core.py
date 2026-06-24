@@ -774,6 +774,8 @@ class RealtimeStore:
         self.repo_root = repo_root
         self.events: deque[dict[str, Any]] = deque(maxlen=max_events)
         self.alerts: deque[dict[str, Any]] = deque(maxlen=max_alerts)
+        self.total_event_count = 0
+        self.total_alert_count = 0
         self._alert_ids: set[str] = set()
         self._lock = threading.RLock()
         self.started_at = now_iso()
@@ -804,6 +806,7 @@ class RealtimeStore:
         event_copy = copy.deepcopy(event)
         with self._lock:
             self.events.append(event_copy)
+            self.total_event_count += 1
             self.evaluation.observe_event(event_copy)
             append_jsonl(self.reports_dir / "events.jsonl", event_copy)
             self.write_static_snapshots_locked()
@@ -818,6 +821,7 @@ class RealtimeStore:
             if alert_id:
                 self._alert_ids.add(alert_id)
             self.alerts.append(alert_copy)
+            self.total_alert_count += 1
             self.evaluation.observe_alert(alert_copy)
             append_jsonl(self.reports_dir / "alerts.jsonl", alert_copy)
             self.write_static_snapshots_locked()
@@ -880,6 +884,8 @@ class RealtimeStore:
                     log_name=self.log_name,
                     elasticsearch_status=self.elasticsearch_status,
                     elasticsearch_last_error=self.elasticsearch_last_error,
+                    total_event_count=self.total_event_count,
+                    total_alert_count=self.total_alert_count,
                 ),
             }
 
@@ -902,6 +908,8 @@ class RealtimeStore:
             log_name=self.log_name,
             elasticsearch_status=self.elasticsearch_status,
             elasticsearch_last_error=self.elasticsearch_last_error,
+            total_event_count=self.total_event_count,
+            total_alert_count=self.total_alert_count,
         )
         write_json(self.static_data_dir / "realtime_events.json", events)
         write_json(self.static_data_dir / "realtime_alerts.json", alerts)
@@ -942,6 +950,8 @@ def build_summary(
     log_name: str = SYSMON_LOG_NAME,
     elasticsearch_status: str = "disconnected",
     elasticsearch_last_error: str = "",
+    total_event_count: int | None = None,
+    total_alert_count: int | None = None,
 ) -> dict[str, Any]:
     """Aggregate dashboard summary values for realtime data."""
 
@@ -962,8 +972,8 @@ def build_summary(
         "log_name": log_name,
         "last_error": last_error,
         "last_poll_at": last_poll_at,
-        "event_count": len(events),
-        "alert_count": len(alerts),
+        "event_count": total_event_count if total_event_count is not None else len(events),
+        "alert_count": total_alert_count if total_alert_count is not None else len(alerts),
         "event_count_by_code": dict(sorted(event_counts.items())),
         "alert_count_by_technique": dict(sorted(technique_counts.items())),
         "alert_count_by_engine": dict(sorted(engine_counts.items())),
