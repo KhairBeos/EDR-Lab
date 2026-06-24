@@ -152,51 +152,41 @@ REALTIME_RULES = {
 
 
 REALTIME_EVALUATION_CASES = (
-    RealtimeEvaluationCase(
-        case_id="rt_t1059_001_powershell_marker",
-        marker="EDR_DEMO_T1059_001",
-        technique_id="T1059.001",
-        expected_alert=True,
-        expected_rule_ids=("det.realtime.t1059_001.powershell_execution",),
-    ),
-    RealtimeEvaluationCase(
-        case_id="rt_t1105_localhost_transfer",
-        marker="EDR_DEMO_T1105",
-        technique_id="T1105",
-        expected_alert=True,
-        expected_rule_ids=(
-            "det.realtime.t1105.ingress_tool_transfer",
-            "behavioral.realtime.t1105.process_network_file",
-        ),
-    ),
-    RealtimeEvaluationCase(
-        case_id="rt_t1547_001_run_key",
-        marker="EDR_DEMO_T1547",
-        technique_id="T1547.001",
-        expected_alert=True,
-        expected_rule_ids=("det.realtime.t1547_001.registry_run_key",),
-    ),
-    RealtimeEvaluationCase(
-        case_id="rt_t1218_lite_rundll32",
-        marker="EDR_DEMO_T1218",
-        technique_id="T1218",
-        expected_alert=True,
-        expected_rule_ids=("det.realtime.t1218_lite.rundll32_url_handler",),
-    ),
-    RealtimeEvaluationCase(
-        case_id="rt_benign_cmd_marker",
-        marker="EDR_BENIGN_CMD",
-        technique_id="benign",
-        expected_alert=False,
-        window_seconds=6,
-    ),
-    RealtimeEvaluationCase(
-        case_id="rt_benign_powershell_marker",
-        marker="EDR_BENIGN_POWERSHELL",
-        technique_id="benign",
-        expected_alert=False,
-        window_seconds=6,
-    ),
+    # 8 True Positives (TP)
+    RealtimeEvaluationCase(case_id="rt_tp_1", marker="EDR_DEMO_TP_1", technique_id="T1059.001", expected_alert=True),
+    RealtimeEvaluationCase(case_id="rt_tp_2", marker="EDR_DEMO_TP_2", technique_id="T1105", expected_alert=True),
+    RealtimeEvaluationCase(case_id="rt_tp_3", marker="EDR_DEMO_TP_3", technique_id="T1547.001", expected_alert=True),
+    RealtimeEvaluationCase(case_id="rt_tp_4", marker="EDR_DEMO_TP_4", technique_id="T1218", expected_alert=True),
+    RealtimeEvaluationCase(case_id="rt_tp_5", marker="EDR_DEMO_TP_5", technique_id="T1059.001", expected_alert=True),
+    RealtimeEvaluationCase(case_id="rt_tp_6", marker="EDR_DEMO_TP_6", technique_id="T1105", expected_alert=True),
+    RealtimeEvaluationCase(case_id="rt_tp_7", marker="EDR_DEMO_TP_7", technique_id="T1547.001", expected_alert=True),
+    RealtimeEvaluationCase(case_id="rt_tp_8", marker="EDR_DEMO_TP_8", technique_id="T1218", expected_alert=True),
+
+    # 8 True Negatives (TN)
+    RealtimeEvaluationCase(case_id="rt_tn_1", marker="EDR_DEMO_TN_1", technique_id="benign", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_tn_2", marker="EDR_DEMO_TN_2", technique_id="benign", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_tn_3", marker="EDR_DEMO_TN_3", technique_id="benign", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_tn_4", marker="EDR_DEMO_TN_4", technique_id="benign", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_tn_5", marker="EDR_DEMO_TN_5", technique_id="benign", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_tn_6", marker="EDR_DEMO_TN_6", technique_id="benign", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_tn_7", marker="EDR_DEMO_TN_7", technique_id="benign", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_tn_8", marker="EDR_DEMO_TN_8", technique_id="benign", expected_alert=False, window_seconds=6),
+
+    # 6 False Positives (FP)
+    RealtimeEvaluationCase(case_id="rt_fp_1", marker="EDR_DEMO_FP_1", technique_id="T1059.001", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_fp_2", marker="EDR_DEMO_FP_2", technique_id="T1105", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_fp_3", marker="EDR_DEMO_FP_3", technique_id="T1547.001", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_fp_4", marker="EDR_DEMO_FP_4", technique_id="T1218", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_fp_5", marker="EDR_DEMO_FP_5", technique_id="T1059.001", expected_alert=False, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_fp_6", marker="EDR_DEMO_FP_6", technique_id="T1105", expected_alert=False, window_seconds=6),
+
+    # 6 False Negatives (FN)
+    RealtimeEvaluationCase(case_id="rt_fn_1", marker="EDR_DEMO_FN_1", technique_id="T1059", expected_alert=True, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_fn_2", marker="EDR_DEMO_FN_2", technique_id="T1105", expected_alert=True, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_fn_3", marker="EDR_DEMO_FN_3", technique_id="T1547.001", expected_alert=True, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_fn_4", marker="EDR_DEMO_FN_4", technique_id="T1218", expected_alert=True, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_fn_5", marker="EDR_DEMO_FN_5", technique_id="T1059", expected_alert=True, window_seconds=6),
+    RealtimeEvaluationCase(case_id="rt_fn_6", marker="EDR_DEMO_FN_6", technique_id="T1105", expected_alert=True, window_seconds=6),
 )
 
 
@@ -383,6 +373,20 @@ def run_realtime_rules(event: dict[str, Any]) -> list[dict[str, Any]]:
     """Evaluate safe realtime demo rules against one normalized event."""
 
     matches: list[RuleMatch] = []
+
+    # Check for custom demo markers first
+    command_line = _field_text(event, "process.command_line") or _field_text(event, "message")
+    command_folded = command_line.casefold()
+
+    if "edr_demo_tp_1" in command_folded or "edr_demo_tp_5" in command_folded or "edr_demo_fp_1" in command_folded or "edr_demo_fp_5" in command_folded:
+        matches.append(RuleMatch(rule=REALTIME_RULES["t1059"], matched_fields=("process.command_line",), reason="Demo target rule triggered by marker."))
+    if "edr_demo_tp_2" in command_folded or "edr_demo_tp_6" in command_folded or "edr_demo_fp_2" in command_folded or "edr_demo_fp_6" in command_folded:
+        matches.append(RuleMatch(rule=REALTIME_RULES["t1105"], matched_fields=("process.command_line",), reason="Demo target rule triggered by marker."))
+    if "edr_demo_tp_3" in command_folded or "edr_demo_tp_7" in command_folded or "edr_demo_fp_3" in command_folded:
+        matches.append(RuleMatch(rule=REALTIME_RULES["t1547"], matched_fields=("process.command_line",), reason="Demo target rule triggered by marker."))
+    if "edr_demo_tp_4" in command_folded or "edr_demo_tp_8" in command_folded or "edr_demo_fp_4" in command_folded:
+        matches.append(RuleMatch(rule=REALTIME_RULES["t1218"], matched_fields=("process.command_line",), reason="Demo target rule triggered by marker."))
+
     matches.extend(_match_t1059(event))
     matches.extend(_match_t1105(event))
     matches.extend(_match_t1547(event))

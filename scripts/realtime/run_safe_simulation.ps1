@@ -72,11 +72,29 @@ try {
     Write-Warning "rundll32.exe was not found; skipping T1218-lite marker."
   }
 
-  & cmd.exe /c "echo EDR_BENIGN_CMD" | Out-Null
-  Write-Ok "Triggered benign cmd TN marker"
+  # Trigger 8 TP cases
+  1..8 | ForEach-Object {
+    & powershell.exe -NoProfile -Command "Write-Output EDR_DEMO_TP_$_" | Out-Null
+    Write-Ok "Triggered TP $_ marker"
+  }
 
-  & powershell.exe -Command "Write-Output EDR_BENIGN_POWERSHELL" | Out-Null
-  Write-Ok "Triggered benign PowerShell TN marker"
+  # Trigger 8 TN cases
+  1..8 | ForEach-Object {
+    & cmd.exe /c "echo EDR_DEMO_TN_$_" | Out-Null
+    Write-Ok "Triggered TN $_ marker"
+  }
+
+  # Trigger 6 FP cases
+  1..6 | ForEach-Object {
+    & powershell.exe -NoProfile -Command "Write-Output EDR_DEMO_FP_$_" | Out-Null
+    Write-Ok "Triggered FP $_ marker"
+  }
+
+  # Trigger 6 FN cases
+  1..6 | ForEach-Object {
+    & cmd.exe /c "echo EDR_DEMO_FN_$_" | Out-Null
+    Write-Ok "Triggered FN $_ marker"
+  }
 
   Write-Info "Wait 2-8 seconds, then check Realtime Alerts, Realtime Events, Realtime Evaluation, and Kibana Discover."
 } finally {

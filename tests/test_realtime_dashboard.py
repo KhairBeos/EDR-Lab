@@ -284,7 +284,8 @@ def test_realtime_elasticsearch_sink_uses_realtime_index_prefixes(monkeypatch: p
 
 
 def test_realtime_evaluation_marks_expected_alert_as_true_positive() -> None:
-    event = normalize_message(1, PROCESS_MESSAGE, 701)
+    message = PROCESS_MESSAGE.replace("EDR_DEMO_T1059_001", "EDR_DEMO_TP_1")
+    event = normalize_message(1, message, 701)
     alert = run_realtime_rules(event)[0]
     tracker = RealtimeEvaluationTracker()
 
@@ -295,13 +296,14 @@ def test_realtime_evaluation_marks_expected_alert_as_true_positive() -> None:
 
     assert pending["counts"]["pending"] == 1
     assert evaluated["counts"]["true_positive"] == 1
-    case = next(item for item in evaluated["cases"] if item["case_id"] == "rt_t1059_001_powershell_marker")
+    case = next(item for item in evaluated["cases"] if item["case_id"] == "rt_tp_1")
     assert case["classification"] == "true_positive"
     assert case["actual_rule_ids"] == ["det.realtime.t1059_001.powershell_execution"]
 
 
 def test_realtime_evaluation_marks_benign_marker_as_true_negative_after_window() -> None:
-    event = normalize_message(1, BENIGN_CMD_MESSAGE, 702)
+    message = BENIGN_CMD_MESSAGE.replace("EDR_BENIGN_CMD", "EDR_DEMO_TN_1")
+    event = normalize_message(1, message, 702)
     tracker = RealtimeEvaluationTracker()
 
     tracker.observe_event(event)
@@ -310,7 +312,7 @@ def test_realtime_evaluation_marks_benign_marker_as_true_negative_after_window()
 
     assert early["counts"]["pending"] == 1
     assert evaluated["counts"]["true_negative"] == 1
-    case = next(item for item in evaluated["cases"] if item["case_id"] == "rt_benign_cmd_marker")
+    case = next(item for item in evaluated["cases"] if item["case_id"] == "rt_tn_1")
     assert case["classification"] == "true_negative"
     assert case["reason"] == "Benign realtime marker produced no alert during the evaluation window."
 
