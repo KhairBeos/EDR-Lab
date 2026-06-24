@@ -17,7 +17,7 @@ const REALTIME_API_BASES = buildRealtimeApiBases();
 const REALTIME_REFRESH_MS = 2000;
 const SECTION_LABELS = ["ATT&CK Technique", "Detection Engine", "Severity", "Sysmon Event ID", "Case Matrix", "Realtime Evaluation", "Recent Alerts", "Alert Detail"];
 const TECHNIQUES = ["T1059.001", "T1105", "T1547.001", "T1218"];
-const ENGINES = ["native", "sigma-like", "ml-anomaly", "behavioral"];
+const ENGINES = ["native", "sigma-like", "ml-anomaly", "behavioral", "realtime-native"];
 const SEVERITIES = ["low", "medium", "high", "critical", "unknown"];
 const SYSMON_EVENTS = [
   { code: "1", label: "process creation" },
@@ -290,6 +290,11 @@ function renderMatrix(counts) {
 
 function renderAlertsTable(rows) {
   const tbody = document.querySelector("#alerts-table");
+  if (!rows.length) {
+    tbody.replaceChildren(emptyTableRow("No alerts in the current dashboard mode yet.", 10));
+    return;
+  }
+
   tbody.replaceChildren(
     ...rows.map((row) => {
       const tr = element("tr");
@@ -298,8 +303,12 @@ function renderAlertsTable(rows) {
       }
       tr.addEventListener("click", () => {
         selectedCaseId = row.case_id;
-        renderAlertsTable(model.rows);
-        renderAlertDetail(row);
+        renderAlertsTable(rows);
+        if (row.source_alert) {
+          renderRealtimeAlertDetail(row.source_alert);
+        } else {
+          renderAlertDetail(row);
+        }
       });
       tr.append(
         tableCell(row.case_id, "mono"),
@@ -414,6 +423,7 @@ function renderRealtime(state) {
   renderRealtimeEvaluation(state.evaluation, state.connected);
   renderRealtimeAlerts(state.alerts);
   renderRealtimeEvents(state.events);
+  renderOverviewForRealtimeState(state);
 }
 
 function renderRealtimeStatus(state) {
@@ -506,6 +516,113 @@ function renderRealtimeEvaluationTable(cases) {
       return tr;
     }),
   );
+}
+
+function renderOverviewForRealtimeState(state) {
+  if (state.connected) {
+    renderLiveModeChrome(state);
+    renderLiveSummary(state);
+    renderLiveCharts(state);
+    renderLiveRecentAlerts(state.alerts, state.evaluation);
+    return;
+  }
+
+  renderStaticModeChrome();
+  if (model) {
+    renderSummary(model);
+    renderBarChart(document.querySelector("#technique-chart"), model.techniqueCounts, TECHNIQUES);
+    renderBarChart(document.querySelector("#engine-chart"), model.engineCounts, ENGINES);
+    renderBarChart(document.querySelector("#severity-chart"), model.severityCounts, SEVERITIES);
+    renderSysmon(model.sysmonCounts);
+    renderMatrix(model.matrixCounts);
+    renderAlertsTable(model.rows);
+    renderAlertDetail(model.rows.find((row) => row.case_id === selectedCaseId));
+  }
+}
+
+function renderLiveModeChrome(state) {
+  text("#dashboard-mode-eyebrow", "Near-realtime demo");
+  text("#dashboard-mode-badge", `Live API ${displayRealtimeApiBase(state.apiBase)}`);
+  text("#metric-total-cases-label", "Realtime cases");
+  text("#metric-total-alerts-label", "Realtime alerts");
+  text("#metric-rule-count-label", "Live rules");
+  text("#metric-techniques-label", "Live ATT&CK techniques");
+  text("#metric-sequences-label", "Live correlations");
+  text("#recent-alerts-title", "Realtime Recent Alerts");
+  text("#recent-alerts-subtitle", "Live alerts from /api/alerts");
+}
+
+function renderStaticModeChrome() {
+  text("#dashboard-mode-eyebrow", "Local deterministic demo");
+  text("#dashboard-mode-badge", "Local deterministic demo");
+  text("#metric-total-cases-label", "Total demo cases");
+  text("#metric-total-alerts-label", "Total alerts");
+  text("#metric-rule-count-label", "Detection rules");
+  text("#metric-techniques-label", "Covered ATT&CK techniques");
+  text("#metric-sequences-label", "Correlated sequences");
+  text("#recent-alerts-title", "Recent Alerts");
+  text("#recent-alerts-subtitle", "Click a row to inspect evidence");
+}
+
+function renderLiveSummary(state) {
+  const summary = state.summary || {};
+  const evaluation = state.evaluation || {};
+  const counts = evaluation.counts || {};
+  const matrixCounts = {
+    true_positive: numberOrZero(counts.true_positive),
+    true_negative: numberOrZero(counts.true_negative),
+    false_positive: numberOrZero(counts.false_positive),
+    false_negative: numberOrZero(counts.false_negative),
+    pending: numberOrZero(counts.pending),
+  };
+  const alerts = state.alerts || [];
+
+  text("#metric-total-cases", `${numberOrZero(evaluation.observed_case_count)} / ${numberOrZero(evaluation.case_count)}`);
+  text("#metric-total-alerts", numberOrZero(summary.alert_count));
+  text("#metric-rule-count", uniqueCount(alerts.map((alert) => getPath(alert, "rule.id"))));
+  text("#metric-techniques", uniqueCount(alerts.map((alert) => getPath(alert, "attack.technique.id"))));
+  text(
+    "#metric-classification",
+    `${matrixCounts.true_positive} / ${matrixCounts.true_negative} / ${matrixCounts.false_positive} / ${matrixCounts.false_negative}`,
+  );
+  text("#metric-sequences", alerts.filter((alert) => getPath(alert, "detection.sequence_name")).length);
+  renderMatrix(matrixCounts);
+}
+
+function renderLiveCharts(state) {
+  const summary = state.summary || {};
+  renderBarChart(
+    document.querySelector("#technique-chart"),
+    ensureKeys(summary.alert_count_by_technique || {}, TECHNIQUES),
+    TECHNIQUES,
+  );
+  renderBarChart(
+    document.querySelector("#engine-chart"),
+    ensureKeys(summary.alert_count_by_engine || {}, ENGINES),
+    ENGINES,
+  );
+  renderBarChart(
+    document.querySelector("#severity-chart"),
+    ensureKeys(summary.severity_counts || {}, SEVERITIES),
+    SEVERITIES,
+  );
+  renderSysmon(ensureKeys(summary.event_count_by_code || {}, SYSMON_EVENTS.map(({ code }) => code)));
+}
+
+function renderLiveRecentAlerts(alerts, evaluation) {
+  const rows = (alerts || [])
+    .slice()
+    .reverse()
+    .map((alert) => normalizeRealtimeAlertRow(alert, evaluation));
+  const selected = rows.find((row) => row.case_id === selectedCaseId) || rows[0];
+  if (selected) {
+    selectedCaseId = selected.case_id;
+    renderAlertsTable(rows);
+    renderRealtimeAlertDetail(selected.source_alert);
+  } else {
+    renderAlertsTable(rows);
+    renderAlertDetail(null);
+  }
 }
 
 function renderRealtimeAlerts(alerts) {
@@ -703,6 +820,44 @@ function countSysmonEvents(rows) {
     });
   });
   return counts;
+}
+
+function normalizeRealtimeAlertRow(alert, evaluation) {
+  const ruleId = getPath(alert, "rule.id");
+  const matchingCase = findEvaluationCaseForAlert(alert, evaluation);
+  const classification = matchingCase?.classification || matchingCase?.status || "pending";
+  return {
+    case_id: alertId(alert),
+    classification,
+    actual_rule_ids: arrayValue(ruleId),
+    technique_id: getPath(alert, "attack.technique.id"),
+    actual_engines: arrayValue(getPath(alert, "detection.engine")),
+    severity: alert.severity || getPath(alert, "alert.severity") || "unknown",
+    process: getPath(alert, "process.name") || getEvidence(alert, "process.name") || "-",
+    event_code: stringValue(getPath(alert, "event.code")),
+    expected_malicious: matchingCase ? Boolean(matchingCase.expected_alert) : true,
+    expected_alert: matchingCase ? Boolean(matchingCase.expected_alert) : true,
+    actual_alert: true,
+    alert_count: 1,
+    actual_rule_ids_text: ruleId,
+    teacher_demo_notes: getPath(alert, "detection.reason") || alert.reason,
+    source_alert: alert,
+  };
+}
+
+function findEvaluationCaseForAlert(alert, evaluation) {
+  const cases = Array.isArray(evaluation?.cases) ? evaluation.cases : [];
+  const ruleId = getPath(alert, "rule.id");
+  const id = alertId(alert);
+  return cases.find((item) => {
+    const ruleIds = arrayValue(item.actual_rule_ids);
+    const alertIds = arrayValue(item.alert_ids);
+    return (ruleId && ruleIds.includes(ruleId)) || (id && alertIds.includes(id));
+  });
+}
+
+function uniqueCount(values) {
+  return new Set(values.map(stringValue).filter((value) => value && value !== "-")).size;
 }
 
 function relatedSysmonIds(value) {

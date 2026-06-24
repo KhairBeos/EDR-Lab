@@ -320,12 +320,12 @@ h2 {
 }
 
 .realtime-alerts-panel {
-  grid-column: 1 / -1;
+  grid-column: span 2;
   grid-row: 2;
 }
 
 .realtime-events-panel {
-  grid-column: 1 / -1;
+  grid-column: span 2;
   grid-row: 3;
 }
 

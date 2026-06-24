@@ -372,6 +372,13 @@ def test_dashboard_realtime_fallback_is_present_without_api() -> None:
     assert "data/realtime_evaluation.json" in app
     assert "/api/evaluation" in app
     assert "Realtime Evaluation" in html
+    assert "Realtime Recent Alerts" in app
+    assert "renderOverviewForRealtimeState(state)" in app
+    assert "renderLiveSummary(state)" in app
+    assert "renderLiveCharts(state)" in app
+    assert "renderLiveRecentAlerts(state.alerts, state.evaluation)" in app
+    assert "normalizeRealtimeAlertRow(alert, evaluation)" in app
+    assert "realtime-native" in app
     assert "offline / static snapshot" in app
     assert "window.setInterval(fetchRealtimeSnapshot, REALTIME_REFRESH_MS)" in app
     assert "lastError: error instanceof Error ? error.message : String(error)" in app

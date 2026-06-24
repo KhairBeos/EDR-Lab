@@ -9,14 +9,14 @@
   <body>
     <header class="dashboard-header">
       <div>
-        <p class="eyebrow">Local deterministic demo</p>
+        <p id="dashboard-mode-eyebrow" class="eyebrow">Local deterministic demo</p>
         <h1>EDR Advanced Operator Dashboard</h1>
         <p class="subtitle">
-          Static visualization of the existing demo case matrix, ATT&amp;CK coverage, and final report evidence.
+          Static baseline with optional live near-realtime telemetry from the local API.
         </p>
       </div>
       <div class="header-meta" aria-label="Project status">
-        <span class="badge">Local deterministic demo</span>
+        <span id="dashboard-mode-badge" class="badge">Local deterministic demo</span>
         <span id="realtime-status" class="realtime-status disconnected">Realtime: disconnected / using static data</span>
         <span id="project-status">Project status: loading</span>
         <span id="last-generated">Last generated: loading</span>
@@ -28,19 +28,19 @@
 
       <section class="summary-grid" aria-label="Summary cards">
         <article class="summary-card">
-          <span>Total demo cases</span>
+          <span id="metric-total-cases-label">Total demo cases</span>
           <strong id="metric-total-cases">-</strong>
         </article>
         <article class="summary-card">
-          <span>Total alerts</span>
+          <span id="metric-total-alerts-label">Total alerts</span>
           <strong id="metric-total-alerts">-</strong>
         </article>
         <article class="summary-card">
-          <span>Detection rules</span>
+          <span id="metric-rule-count-label">Detection rules</span>
           <strong id="metric-rule-count">-</strong>
         </article>
         <article class="summary-card">
-          <span>Covered ATT&amp;CK techniques</span>
+          <span id="metric-techniques-label">Covered ATT&amp;CK techniques</span>
           <strong id="metric-techniques">-</strong>
         </article>
         <article class="summary-card wide">
@@ -48,7 +48,7 @@
           <strong id="metric-classification">-</strong>
         </article>
         <article class="summary-card">
-          <span>Correlated sequences</span>
+          <span id="metric-sequences-label">Correlated sequences</span>
           <strong id="metric-sequences">-</strong>
         </article>
       </section>
@@ -206,8 +206,8 @@
       <section class="investigation-grid">
         <article class="panel table-panel">
           <div class="panel-heading">
-            <h2>Recent Alerts</h2>
-            <span>Click a row to inspect evidence</span>
+            <h2 id="recent-alerts-title">Recent Alerts</h2>
+            <span id="recent-alerts-subtitle">Click a row to inspect evidence</span>
           </div>
           <div class="table-wrap">
             <table>
