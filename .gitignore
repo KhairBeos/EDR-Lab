@@ -11,3 +11,4 @@ __pycache__/
 validation/reports/*.html
 validation/reports/latest.json
 atomic-red-team/results/*.tmp
+Project 3
