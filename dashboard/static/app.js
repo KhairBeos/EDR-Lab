@@ -11,7 +11,9 @@ const DATA_PATHS = {
   realtimeEvaluation: "data/realtime_evaluation.json",
 };
 
-const REALTIME_API_BASE = "http://localhost:8090";
+const REALTIME_API_PORT = "8090";
+const REALTIME_API_DEFAULT_BASE = "http://localhost:8090";
+const REALTIME_API_BASES = buildRealtimeApiBases();
 const REALTIME_REFRESH_MS = 2000;
 const SECTION_LABELS = ["ATT&CK Technique", "Detection Engine", "Severity", "Sysmon Event ID", "Case Matrix", "Realtime Evaluation", "Recent Alerts", "Alert Detail"];
 const TECHNIQUES = ["T1059.001", "T1105", "T1547.001", "T1218"];
@@ -55,8 +57,10 @@ const CLASSIFICATION_COPY = {
 let selectedCaseId = null;
 let selectedRealtimeAlertId = null;
 let model = null;
+let activeRealtimeApiBase = "";
 let realtimeState = {
   connected: false,
+  apiBase: "",
   summary: null,
   alerts: [],
   events: [],
@@ -72,6 +76,38 @@ async function loadJson(path) {
   }
 
   return response.json();
+}
+
+function buildRealtimeApiBases() {
+  const params = new URLSearchParams(window.location.search);
+  const configuredApi = normalizeRealtimeApiBase(params.get("api") || "");
+  const pageHost = hostForRealtimeApi(window.location.hostname);
+  const sameHostApi = pageHost ? `http://${pageHost}:${REALTIME_API_PORT}` : "";
+  return uniqueValues([configuredApi, sameHostApi, "http://127.0.0.1:8090", REALTIME_API_DEFAULT_BASE]);
+}
+
+function hostForRealtimeApi(hostname) {
+  if (!hostname || hostname === "::" || hostname === "0.0.0.0") {
+    return "127.0.0.1";
+  }
+  if (hostname.includes(":") && !hostname.startsWith("[")) {
+    return `[${hostname}]`;
+  }
+  return hostname;
+}
+
+function normalizeRealtimeApiBase(value) {
+  return value.trim().replace(/\/+$/, "");
+}
+
+function uniqueValues(values) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+function realtimeApiCandidates() {
+  return activeRealtimeApiBase
+    ? uniqueValues([activeRealtimeApiBase, ...REALTIME_API_BASES])
+    : REALTIME_API_BASES;
 }
 
 async function boot() {
@@ -289,15 +325,11 @@ function startRealtimePolling() {
 
 async function fetchRealtimeSnapshot() {
   try {
-    const [summary, alerts, events, evaluation] = await Promise.all([
-      loadRealtimeJson("/api/summary"),
-      loadRealtimeJson("/api/alerts"),
-      loadRealtimeJson("/api/events"),
-      loadRealtimeJson("/api/evaluation"),
-    ]);
+    const { summary, alerts, events, evaluation, apiBase } = await loadRealtimeSnapshotFromApi();
 
     realtimeState = {
       connected: true,
+      apiBase,
       summary,
       alerts: Array.isArray(alerts) ? alerts : [],
       events: Array.isArray(events) ? events : [],
@@ -309,6 +341,7 @@ async function fetchRealtimeSnapshot() {
     realtimeState = {
       ...fallback,
       connected: false,
+      apiBase: "",
       lastError: error instanceof Error ? error.message : String(error),
     };
   }
@@ -316,8 +349,29 @@ async function fetchRealtimeSnapshot() {
   renderRealtime(realtimeState);
 }
 
-async function loadRealtimeJson(path) {
-  const response = await fetch(`${REALTIME_API_BASE}${path}`, {
+async function loadRealtimeSnapshotFromApi() {
+  const errors = [];
+  for (const apiBase of realtimeApiCandidates()) {
+    try {
+      const [summary, alerts, events, evaluation] = await Promise.all([
+        loadRealtimeJson(apiBase, "/api/summary"),
+        loadRealtimeJson(apiBase, "/api/alerts"),
+        loadRealtimeJson(apiBase, "/api/events"),
+        loadRealtimeJson(apiBase, "/api/evaluation"),
+      ]);
+      activeRealtimeApiBase = apiBase;
+      return { summary, alerts, events, evaluation, apiBase };
+    } catch (error) {
+      errors.push(`${apiBase}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  activeRealtimeApiBase = "";
+  throw new Error(`Realtime API unreachable. Tried ${errors.join(" | ")}`);
+}
+
+async function loadRealtimeJson(apiBase, path) {
+  const response = await fetch(`${apiBase}${path}`, {
     cache: "no-store",
     mode: "cors",
   });
@@ -357,7 +411,7 @@ async function loadStaticRealtimeSnapshot() {
 function renderRealtime(state) {
   renderRealtimeStatus(state);
   renderRealtimeSummary(state.summary, state.connected);
-  renderRealtimeEvaluation(state.evaluation);
+  renderRealtimeEvaluation(state.evaluation, state.connected);
   renderRealtimeAlerts(state.alerts);
   renderRealtimeEvents(state.events);
 }
@@ -371,7 +425,9 @@ function renderRealtimeStatus(state) {
   status.classList.toggle("connected", state.connected);
   status.classList.toggle("disconnected", !state.connected);
   status.textContent = state.connected ? "Realtime: connected" : "Realtime: disconnected / using static data";
-  status.title = state.connected ? "Realtime API is reachable." : state.lastError || "Realtime API is offline.";
+  status.title = state.connected
+    ? `Realtime API is reachable at ${state.apiBase}.`
+    : state.lastError || "Realtime API is offline.";
 }
 
 function renderRealtimeSummary(summary, connected) {
@@ -381,11 +437,15 @@ function renderRealtimeSummary(summary, connected) {
   text("#realtime-last-alert", summary ? summary.latest_alert_at || "-" : "-");
   text(
     "#realtime-api-health",
-    connected && summary?.collector_running ? "collector running" : connected ? "api online" : "offline / static snapshot",
+    connected && summary?.collector_running
+      ? `collector running (${displayRealtimeApiBase(realtimeState.apiBase)})`
+      : connected
+        ? `api online (${displayRealtimeApiBase(realtimeState.apiBase)})`
+        : "offline / static snapshot",
   );
 }
 
-function renderRealtimeEvaluation(evaluation) {
+function renderRealtimeEvaluation(evaluation, connected = false) {
   if (!evaluation) {
     return;
   }
@@ -402,7 +462,7 @@ function renderRealtimeEvaluation(evaluation) {
     numberOrZero(evaluation.observed_case_count) > 0 ||
     Object.values(matrixCounts).some((value) => numberOrZero(value) > 0);
 
-  if (hasLiveEvaluation) {
+  if (connected && hasLiveEvaluation) {
     text(
       "#metric-classification",
       `${matrixCounts.true_positive} / ${matrixCounts.true_negative} / ${matrixCounts.false_positive} / ${matrixCounts.false_negative}`,
@@ -748,6 +808,10 @@ function stringValue(value) {
     return "-";
   }
   return String(value);
+}
+
+function displayRealtimeApiBase(value) {
+  return value ? value.replace(/^https?:\/\//, "") : "api";
 }
 
 function detailValue(value) {

@@ -363,6 +363,10 @@ def test_dashboard_realtime_fallback_is_present_without_api() -> None:
 
     assert "Realtime: disconnected / using static data" in html
     assert "http://localhost:8090" in app
+    assert "REALTIME_API_BASES = buildRealtimeApiBases()" in app
+    assert "activeRealtimeApiBase" in app
+    assert "loadRealtimeSnapshotFromApi" in app
+    assert "hostForRealtimeApi(window.location.hostname)" in app
     assert "loadStaticRealtimeSnapshot" in app
     assert "data/realtime_summary.json" in app
     assert "data/realtime_evaluation.json" in app
@@ -371,3 +375,5 @@ def test_dashboard_realtime_fallback_is_present_without_api() -> None:
     assert "offline / static snapshot" in app
     assert "window.setInterval(fetchRealtimeSnapshot, REALTIME_REFRESH_MS)" in app
     assert "lastError: error instanceof Error ? error.message : String(error)" in app
+    assert "renderRealtimeEvaluation(state.evaluation, state.connected)" in app
+    assert "if (connected && hasLiveEvaluation)" in app
