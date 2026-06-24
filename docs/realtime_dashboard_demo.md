@@ -21,7 +21,7 @@ Sysmon Event Log
 Trên host machine:
 
 ```powershell
-cd D:\Learning\Security\EDR
+cd D:\Learning\Security\EDR-Lab
 .\scripts\setup\use_host_docker.ps1 192.168.213.1
 docker compose up -d
 docker compose -f docker-compose.kafka.yml up -d
@@ -49,12 +49,17 @@ Kibana: http://192.168.213.1:5601
 Terminal 1 trong VM:
 
 ```powershell
-cd C:\Project\EDR
+cd C:\Project\EDR-Lab
 git pull
+if (!(Test-Path .\.venv\Scripts\Activate.ps1)) {
+  python -m venv .venv
+}
 .\.venv\Scripts\Activate.ps1
 .\scripts\setup\use_host_docker.ps1 192.168.213.1
 python scripts\realtime\run_realtime_dashboard.py --port 8090 --poll-interval 2 --elastic-url http://192.168.213.1:9200
 ```
+
+`requirements.txt` hiện không cài package runtime nào cho realtime dashboard. Collector/API dùng Python standard library; chỉ cần cài thêm dependency nếu chạy test (`pytest`) hoặc live Kafka adapter (`confluent-kafka` hoặc `kafka-python`).
 
 Nếu không truyền `--elastic-url`, script đọc env:
 
@@ -97,7 +102,7 @@ Nếu Elasticsearch tắt hoặc không reachable, API vẫn chạy local. `/api
 Terminal 2 trong VM:
 
 ```powershell
-cd C:\Project\EDR
+cd C:\Project\EDR-Lab
 python -m http.server 8088 -d dashboard/static
 ```
 
@@ -134,7 +139,7 @@ dashboard/static/data/realtime_summary.json
 Terminal 3 trong VM:
 
 ```powershell
-cd C:\Project\EDR
+cd C:\Project\EDR-Lab
 .\scripts\realtime\run_safe_simulation.ps1
 ```
 
