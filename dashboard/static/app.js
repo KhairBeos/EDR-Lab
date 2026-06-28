@@ -193,11 +193,38 @@ function buildTotals({ dashboardData, finalReport, coverageReport, rows }) {
       dashboardData.correlated_sequence_count,
       finalReport.correlated_sequence_count || 0,
     ),
+    responseScope: buildResponseScope({ dashboardData, finalReport }),
     projectStatus: finalReport.project_status || coverageReport.project_phase || "Local deterministic demo ready",
     generatedAt:
       dashboardData.generated_at ||
       caseGeneratedAt(dashboardData, finalReport, coverageReport) ||
       "unknown",
+  };
+}
+
+function buildResponseScope({ dashboardData, finalReport }) {
+  const capabilities = Array.isArray(finalReport.capability_matrix) ? finalReport.capability_matrix : [];
+  const validations = Array.isArray(finalReport.validation_results) ? finalReport.validation_results : [];
+  const limitations = Array.isArray(finalReport.known_limitations) ? finalReport.known_limitations : [];
+  const soarCapability = capabilities.find((item) => item.capability === "soar_dry_run");
+  const protectionCapability = capabilities.find((item) => item.capability === "lab_only_protection_action");
+  const soarValidation = validations.find((item) => item.id === "soar_fixture_response");
+  const protectionCounts = dashboardData.protection_count || {};
+  const dryRunProtectionCount = numberOrZero(protectionCounts["dry-run"]);
+  const noProductionContainment = limitations.some((item) =>
+    stringValue(item).toLowerCase().includes("does not execute production containment") ||
+    stringValue(item).toLowerCase().includes("requires explicit --execute-protection"),
+  );
+
+  return {
+    soarMode: soarCapability ? "dry-run" : "not shown",
+    soarEvidence: soarValidation
+      ? `${numberOrZero(soarValidation.response_count)} planned record in final report`
+      : "planned response only",
+    protectionMode: protectionCapability ? "lab-only dry-run" : "not shown",
+    protectionEvidence: `${dryRunProtectionCount} dry-run cases / ${numberOrZero(protectionCounts.none)} none`,
+    containmentMode: noProductionContainment ? "not implemented" : "not claimed",
+    containmentEvidence: "no automatic endpoint blocking",
   };
 }
 
@@ -225,6 +252,7 @@ function renderHeader(currentModel) {
 
 function renderSummary(currentModel) {
   const { totals, matrixCounts } = currentModel;
+  const { responseScope } = totals;
 
   text("#metric-total-cases", totals.totalCases);
   text("#metric-total-alerts", totals.totalAlerts);
@@ -235,6 +263,12 @@ function renderSummary(currentModel) {
     `${matrixCounts.true_positive} / ${matrixCounts.true_negative} / ${matrixCounts.false_positive} / ${matrixCounts.false_negative}`,
   );
   text("#metric-sequences", totals.correlatedSequences);
+  text("#metric-soar-mode", responseScope.soarMode);
+  text("#metric-soar-evidence", responseScope.soarEvidence);
+  text("#metric-protection-mode", responseScope.protectionMode);
+  text("#metric-protection-evidence", responseScope.protectionEvidence);
+  text("#metric-containment-mode", responseScope.containmentMode);
+  text("#metric-containment-evidence", responseScope.containmentEvidence);
 }
 
 function renderBarChart(container, counts, orderedKeys) {
@@ -291,7 +325,7 @@ function renderMatrix(counts) {
 function renderAlertsTable(rows) {
   const tbody = document.querySelector("#alerts-table");
   if (!rows.length) {
-    tbody.replaceChildren(emptyTableRow("No alerts in the current dashboard mode yet.", 10));
+    tbody.replaceChildren(emptyTableRow("No alerts in the current dashboard mode yet.", 11));
     return;
   }
 
@@ -319,6 +353,7 @@ function renderAlertsTable(rows) {
         tableCell(pill(row.severity, row.severity)),
         tableCell(row.process),
         tableCell(row.event_code),
+        tableCell(protectionLabel(row.expected_protection)),
         tableCell(row.expected_malicious ? "true" : "false"),
         tableCell(row.alert_count),
       );
@@ -754,6 +789,7 @@ function renderAlertDetail(row) {
       expected_alert: String(row.expected_alert),
       actual_alert: String(row.actual_alert),
       alert_count: String(row.alert_count),
+      expected_protection: protectionLabel(row.expected_protection),
       sequence_names: listValue(row.actual_sequence_names),
       correlated_sequence_count: String(numberOrZero(row.correlated_sequence_count)),
     }),
@@ -938,6 +974,11 @@ function text(selector, value) {
 function listValue(value) {
   const values = arrayValue(value);
   return values.length ? values.join(", ") : "-";
+}
+
+function protectionLabel(value) {
+  const label = stringValue(value);
+  return label === "-" ? "none" : label;
 }
 
 function arrayValue(value) {

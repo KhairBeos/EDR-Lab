@@ -85,8 +85,21 @@ Fields used:
 - `dashboard_data.false_positive_count`
 - `dashboard_data.false_negative_count`
 - `dashboard_data.correlated_sequence_count`
+- `final_demo_report.capability_matrix[]` for SOAR/protection scope
+- `final_demo_report.validation_results[]` for the SOAR dry-run fixture response
+- `dashboard_data.protection_count`
 
 Use these cards to give the teacher the demo scope before opening details.
+
+### Response Scope
+
+Shows the safety boundary for the response layer:
+
+- `SOAR response`: dry-run planning only.
+- `Protection mode`: lab-only dry-run by default.
+- `Production containment`: not implemented.
+
+Use this panel when the teacher asks whether the project actually blocks an attack. The correct explanation is that the dashboard demonstrates detection evidence and response planning, not production endpoint blocking. Protection evidence is kept as dry-run/lab-only records unless an isolated lab execution is explicitly intended.
 
 ### ATT&CK Technique
 
@@ -160,6 +173,7 @@ The table uses:
 - `severity`
 - process/name fallback fields
 - `event_code`
+- `expected_protection`
 - `expected_alert`
 - `alert_count`
 
@@ -186,8 +200,9 @@ This panel explains existing results only. It does not run detection logic in th
 2. Use the ATT&CK technique and engine panels to connect detections to coverage.
 3. Use Sysmon Event ID evidence to explain why endpoint telemetry matters.
 4. Open the Case Matrix and explicitly mention TP/TN/FP/FN.
-5. Click one TP, one FP, and one FN row in Recent Alerts.
-6. Close by saying this is a local deterministic demo dashboard, not a production EDR console.
+5. Point to Response Scope to clarify that SOAR/protection is dry-run/lab-only, not production blocking.
+6. Click one TP, one FP, and one FN row in Recent Alerts.
+7. Close by saying this is a local deterministic demo dashboard, not a production EDR console.
 
 ## Limitations
 

@@ -41,6 +41,9 @@ def test_dashboard_mentions_project_name_and_required_sections() -> None:
         "Severity",
         "Sysmon Event ID",
         "Case Matrix",
+        "SOAR response",
+        "Protection mode",
+        "Production containment",
         "Recent Alerts",
         "Alert Detail",
     ]:

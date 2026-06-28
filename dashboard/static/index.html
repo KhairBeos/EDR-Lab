@@ -51,6 +51,21 @@
           <span id="metric-sequences-label">Correlated sequences</span>
           <strong id="metric-sequences">-</strong>
         </article>
+        <article class="summary-card response-card">
+          <span>SOAR response</span>
+          <strong id="metric-soar-mode">-</strong>
+          <small id="metric-soar-evidence">-</small>
+        </article>
+        <article class="summary-card response-card">
+          <span>Protection mode</span>
+          <strong id="metric-protection-mode">-</strong>
+          <small id="metric-protection-evidence">-</small>
+        </article>
+        <article class="summary-card response-card">
+          <span>Production containment</span>
+          <strong id="metric-containment-mode">-</strong>
+          <small id="metric-containment-evidence">-</small>
+        </article>
       </section>
 
       <section class="panel-grid" aria-label="Dashboard panels">
@@ -105,6 +120,7 @@
             <li>Sysmon Event ID 1/3/11/13 gives process, network, file, and registry evidence.</li>
             <li>Rules map demo events to MITRE ATT&amp;CK techniques through the coverage report.</li>
             <li>TP/TN/FP/FN are computed from expected_alert vs actual_alert and remain visible.</li>
+            <li>Response is dry-run/lab-only evidence; this dashboard does not prove production blocking.</li>
           </ul>
         </aside>
       </section>
@@ -221,6 +237,7 @@
                   <th>severity</th>
                   <th>process</th>
                   <th>event_code</th>
+                  <th>protection</th>
                   <th>expected_malicious</th>
                   <th>alert_count</th>
                 </tr>
